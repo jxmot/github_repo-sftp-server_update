@@ -1,5 +1,6 @@
 _*.*
 /_*
+composer.*
 ssh/*
 !ssh/.git*
 vendor/*
