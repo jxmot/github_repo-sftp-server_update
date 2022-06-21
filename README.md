@@ -108,8 +108,11 @@ All configuration data is saved in JSON formatted files.
 The version of [phpseclib](https://github.com/phpseclib/phpseclib) used here is **3.0.14**. For the most part it appears to be bug free *so far*. However one bug has appeared and a "fix" has been made to the phpseclib source in this repository.
 
 **Description:** When "date preservation" is enabled a run-time exception occurs: `'Error setting file time'` when copying files to/from the server.
+
 **Cause:** After `stat()` returns the code attempts to access the "file time" with `$stat['time']`. The problem is that there is no member in `$stat[]` named `'time'`. The correct name is `'mtime'`.
+
 **Correction:** Change all occurences of `$stat['time']` to `$stat['mtime']`.
+
 **Note:** This appears to be fixed it this [commit](https://github.com/phpseclib/phpseclib/commit/e700ac75612024c0aea72413d1f3731b0fa71910). It was created 10 days after the 3.0.14 release.
 
 # Future
