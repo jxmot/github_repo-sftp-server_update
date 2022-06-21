@@ -99,28 +99,50 @@ path_to_repository
 
 All configuration data is saved in JSON formatted files.
 
+In addition to being placed in approptiate locactions the configuration files use this naming convention:
+
+* **`owner-*.json`**:
+* **`token-*.json`**:
+* **`repo-*.json`**: 
+
+
+
 ## Application Run
+
+The default file name is `run.json`:
 
 ```
 {
-    "user":"github_username",
-    "server":"path/to/server-yourserver.json",
-    "repo":"path/to/repo-your_repository_name_on_github.json",
+    "owner":""owners/owner-github_username.json",
+    "server":"servers/server-yourserver.json",
+    "repo":"repos/repo-your_repository_name_on_github.json",
     "mode":"stage",
     "verbose": true
 }
 ```
 
+It is possible to keep more than one "run" JSON file. Just give them different names and pass the name as an argument to the application - 
+
+```
+php run.php run
+```
+
+If no argument is provided the default run file is `run.json`.
+
 ## GitHub User
+
+This file should be named `users/user-github_username.json`:
 
 ```
 {
-    "user": "github_username",
-    "tokenfile": "path/to/token-github_username.json"
+    "owner": "github_username",
+    "tokenfile": "../tokens/token-github_username.json"
 }
 ```
 
 ## GitHub Token
+
+This file should be named `tokens/token-github_username.json`:
 
 ```
 {
@@ -132,6 +154,8 @@ All configuration data is saved in JSON formatted files.
 ### User Owned Repositories
 
 **This portion is under development and is likely to change.**
+
+This file should be named `repos/token-github_username.json`:
 
 ```
 {
@@ -182,6 +206,8 @@ All configuration data is saved in JSON formatted files.
 
 ## SFTP Server
 
+This file should be named `server-yourserver.json`:
+
 ```
 {
     "keyfile": "ssh/private_key_file",
@@ -203,6 +229,16 @@ All configuration data is saved in JSON formatted files.
 
 See [Required Preparation](#required_preparation) before proceeding, this application will not run successfully until the preparations are completed.
 
+## Ready!
+
+**Checklist:**
+
+- [ ] SSH/SFTP: Set up SSH - 
+  - [ ] downloaded private key file from your server
+  - [ ] copy pass phrase into the `ssh/yourserver-passphrase.json` file and replace `yourserver` with something that identifies the server you will be connecting to.
+- [ ] GitHub:
+  - [ ] 
+
 # phpseclib Notes
 
 The version of [phpseclib](https://github.com/phpseclib/phpseclib) used here is **3.0.14**. For the most part it appears to be bug free *so far*. However one bug has appeared and I have made a "fix" to the phpseclib source in this repository.
@@ -215,7 +251,7 @@ The version of [phpseclib](https://github.com/phpseclib/phpseclib) used here is 
 
 **Correction:** Change all occurences of `$stat['time']` to `$stat['mtime']`.
 
-**Note:** This appears to be fixed in this [commit](https://github.com/phpseclib/phpseclib/commit/e700ac75612024c0aea72413d1f3731b0fa71910). It was created 10 days after the 3.0.14 release.
+**Note:** This appears to be fixed in this [commit](https://github.com/phpseclib/phpseclib/commit/e700ac75612024c0aea72413d1f3731b0fa71910). It was created 10 days after the 3.0.14 release. As of this time (2022-06-21) there have been no new releases.
 
 # Future
 
