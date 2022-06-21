@@ -129,9 +129,9 @@ php run.php run
 
 If no argument is provided the default run file is `run.json`.
 
-## GitHub User
+## GitHub Repository Owner
 
-This file should be named `users/user-github_username.json`:
+This file should be named `owners/owner-github_username.json`:
 
 ```
 {
@@ -155,7 +155,7 @@ This file should be named `tokens/token-github_username.json`:
 
 **This portion is under development and is likely to change.**
 
-This file should be named `repos/token-github_username.json`:
+This file should be named `repos/repo-your_repository_name_on_github.json`:
 
 ```
 {
