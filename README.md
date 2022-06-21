@@ -43,9 +43,10 @@ For the given repository the application can obtain the changed files that occur
 
 * When creating a new repository that this application will use when updating a server:
   * Immediately after creation tag the repository with 0.0.0 (*numeric only revision numbers are recommended*)
-  * 
+    * If the 0.0.0 tag is created sometime *after* the repository and other tags have been created and other tags then it *should be* OK. The application will *sort* the tags prior to using them.
+  * Try to be consistent in how you advance the version number. 
 * Prior to updating files on the server:
-  * Have properly tagged releases.
+  * Have properly at least two tagged releases.
   * All changed files have been committed and pushed to the repository.
   * TBD
 
@@ -100,13 +101,103 @@ All configuration data is saved in JSON formatted files.
 
 ## Application Run
 
+```
+{
+    "user":"github_username",
+    "server":"path/to/server-yourserver.json",
+    "repo":"path/to/repo-your_repository_name_on_github.json",
+    "mode":"stage",
+    "verbose": true
+}
+```
+
 ## GitHub User
+
+```
+{
+    "user": "github_username",
+    "tokenfile": "path/to/token-github_username.json"
+}
+```
 
 ## GitHub Token
 
+```
+{
+    "note":"not used, here for convenience to aid in identifying which token is being used",
+    "token":"your personal access token goes here"
+}
+```
+
 ### User Owned Repositories
 
+**This portion is under development and is likely to change.**
+
+```
+{
+    "name": "your_repository_name_on_github",
+    "stage": {
+        "_comment": "the enitre repository root folder contents will go here.",
+        "dest": "%DOCROOT%/temp/stage/",
+        "sourceroot": ""
+    },
+    "test": {
+        "_comment": [
+            "%DOCROOT% is 'docroot' in sftp-server.json, and everything ",
+            "found in repo/'sourceroot' will be copied to "dest"."
+        ],
+        "dest": "%DOCROOT%/test/",
+        "sourceroot": "public_html/"
+    },
+    "live": {
+        "_comment": "",
+        "dest": "%DOCROOT%",
+        "sourceroot": "public_html/"
+    },
+    "_comment00": "path to the location of the repostiory's root folder",
+    "sourceroot": "../../",
+    "_comment01": [
+        "global exclusions, looks at changed files(paths included) and ",
+        "if a match is found then that file is not copied to the server."
+        "use regex here, add entries to array as needed"
+    ]
+    "exclude": ["/^folder_in_repo/i","/gitignore/i","/gitkeep/i","/readme/i"],
+    "_comment02": [
+        "if endtag is present then use that tag instead of the repos last found tag",
+        "and the begtag=(last found - 1) will be what is found in the repo.",
+        "actually HEAD is the only choice here other than empty"
+    ],
+    "endtag": "HEAD",
+    "_comment03": [
+        "can use 0.0.0 here, but",
+        "requires that the repo has a 0.0.0 release, this ",
+        "can be done at any time... create a tag 0.0.0 then ",
+        "attached a release to the existing tag.",
+        "NOTE: creating the 0.0.0 results in a PushEvent without",
+        "any commit content.",
+    ],
+    "begtag": "2.1.4",
+}
+```
+
 ## SFTP Server
+
+```
+{
+    "keyfile": "ssh/private_key_file",
+    "phrasefile": "ssh/yourserver-passphrase.json",
+    "server": "yourserver.whatever",
+    "login": "yourserver_login",
+    "home": "/home/yourserver_login/",
+    "docroot": "/home/yourserver_login/public_html/"
+}
+```
+
+```
+{
+    "phrase": "yourserver-passphrase-goes-here"
+}
+```
 
 # Running the Application
 
