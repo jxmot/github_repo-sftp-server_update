@@ -1,0 +1,13 @@
+_*.*
+/_*
+ssh/*
+!ssh/.git*
+vendor/*
+!vendor/phpseclib
+vendor/phpseclib/*
+!vendor/phpseclib/phpseclib
+vendor/phpseclib/phpseclib/*
+!vendor/phpseclib/phpseclib/phpseclib
+vendor/phpseclib/phpseclib/phpseclib/*
+!vendor/phpseclib/phpseclib/phpseclib/Net
+!vendor/phpseclib/phpseclib/phpseclib/Net/SFTP.php
