@@ -1,6 +1,6 @@
 # This is a "work in progress"
 
-**Some code has been written, and a "proof of concept" application was created. As development proceeds this README will be updated. Stay Tuned!**
+**2022-06-21 Some code has been written, and a "proof of concept" application was created. As development proceeds this README will be updated. Stay Tuned!**
 
 # github_repo-sftp-server_update
 
@@ -41,6 +41,9 @@ For the given repository the application can obtain the changed files that occur
 
 ## Best Practices
 
+* When creating a new repository that this application will use when updating a server:
+  * Immediately after creation tag the repository with 0.0.0 (*numeric only revision numbers are recommended*)
+  * 
 * Prior to updating files on the server:
   * Have properly tagged releases.
   * All changed files have been committed and pushed to the repository.
@@ -93,7 +96,9 @@ path_to_repository
 
 # Configuration
 
-All configuration data is saved in JSON formatted files. 
+All configuration data is saved in JSON formatted files.
+
+## Application Run
 
 ## GitHub User
 
@@ -103,17 +108,23 @@ All configuration data is saved in JSON formatted files.
 
 ## SFTP Server
 
+# Running the Application
+
+See [Required Preparation](#required_preparation) before proceeding, this application will not run successfully until the preparations are completed.
+
 # phpseclib Notes
 
-The version of [phpseclib](https://github.com/phpseclib/phpseclib) used here is **3.0.14**. For the most part it appears to be bug free *so far*. However one bug has appeared and a "fix" has been made to the phpseclib source in this repository.
+The version of [phpseclib](https://github.com/phpseclib/phpseclib) used here is **3.0.14**. For the most part it appears to be bug free *so far*. However one bug has appeared and I have made a "fix" to the phpseclib source in this repository.
 
-**Description:** When "date preservation" is enabled a run-time exception occurs: `'Error setting file time'` when copying files to/from the server.
+**Installation:** `composer require phpseclib/phpseclib:~3.0`
+
+**Bug Description:** When "date preservation" is enabled a run-time exception occurs: `'Error setting file time'` when copying files to/from the server.
 
 **Cause:** After `stat()` returns the code attempts to access the "file time" with `$stat['time']`. The problem is that there is no member in `$stat[]` named `'time'`. The correct name is `'mtime'`.
 
 **Correction:** Change all occurences of `$stat['time']` to `$stat['mtime']`.
 
-**Note:** This appears to be fixed it this [commit](https://github.com/phpseclib/phpseclib/commit/e700ac75612024c0aea72413d1f3731b0fa71910). It was created 10 days after the 3.0.14 release.
+**Note:** This appears to be fixed in this [commit](https://github.com/phpseclib/phpseclib/commit/e700ac75612024c0aea72413d1f3731b0fa71910). It was created 10 days after the 3.0.14 release.
 
 # Future
 
