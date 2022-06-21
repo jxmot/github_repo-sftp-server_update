@@ -206,7 +206,7 @@ This file should be named `repos/repo-your_repository_name_on_github.json`:
 
 ## SFTP Server
 
-This file should be named `server-yourserver.json`:
+This file should be named `servers/server-yourserver.json`:
 
 ```
 {
@@ -218,6 +218,8 @@ This file should be named `server-yourserver.json`:
     "docroot": "/home/yourserver_login/public_html/"
 }
 ```
+
+This file should be named `ssh/passphrase-yourserver.json`:
 
 ```
 {
@@ -234,10 +236,19 @@ See [Required Preparation](#required_preparation) before proceeding, this applic
 **Checklist:**
 
 - [ ] SSH/SFTP: Set up SSH - 
-  - [ ] downloaded private key file from your server
+  - [ ] downloaded private key file from your server, save it in the `ssh` folder and edit `"keyfile"` in `servers/server-yourserver.json`.
   - [ ] copy pass phrase into the `ssh/yourserver-passphrase.json` file and replace `yourserver` with something that identifies the server you will be connecting to.
-- [ ] GitHub:
-  - [ ] 
+- [ ] GitHub - 
+  - [ ] Get a *personal access token*
+  - [ ] Save the token in `tokens/token-github_username.json`
+- [ ]  
+
+Replace the following occurrences of:
+
+- [ ] `yourserver` - replace with something that identifies the server you will be connecting to
+- [ ] `github_username` - use your GitHub user name
+- [ ] `yourserver_login` - this is the login name used on your server for SSH/SFTP connections
+- [ ] `your_repository_name_on_github` - this is the name of the repository that this application will access
 
 # phpseclib Notes
 
