@@ -99,12 +99,12 @@ path_to_repository
 
 All configuration data is saved in JSON formatted files.
 
-In addition to being placed in approptiate locactions the configuration files use this naming convention:
+In addition to being placed in appropriate locations the configuration files use this naming convention:
 
 * **`owner-*.json`**:
 * **`token-*.json`**:
 * **`repo-*.json`**: 
-
+* **`server-*.json`**: 
 
 
 ## Application Run
@@ -248,7 +248,7 @@ Replace the following occurrences of:
 - [ ] `yourserver` - replace with something that identifies the server you will be connecting to
 - [ ] `github_username` - use your GitHub user name
 - [ ] `yourserver_login` - this is the login name used on your server for SSH/SFTP connections
-- [ ] `your_repository_name_on_github` - this is the name of the repository that this application will access
+- [ ] `your_repository_name_on_github` - this is the name of the repository that this application will access. Since a *personal access token* is used the repository can be public or private
 
 # phpseclib Notes
 
