@@ -106,7 +106,6 @@ In addition to being placed in appropriate locations the configuration files use
 * **`repo-*.json`**: 
 * **`server-*.json`**: 
 
-
 ## Application Run
 
 The default file name is `run.json`:
@@ -235,17 +234,21 @@ See [Required Preparation](#required_preparation) before proceeding, this applic
 
 **Checklist:**
 
-- [ ] SSH/SFTP: Set up SSH - 
+- [ ] **SSH/SFTP**: Set up SSH - 
   - [ ] downloaded private key file from your server, save it in the `ssh` folder and edit `"keyfile"` in `servers/server-yourserver.json`.
-  - [ ] copy pass phrase into the `ssh/yourserver-passphrase.json` file and replace `yourserver` with something that identifies the server you will be connecting to.
-- [ ] GitHub - 
+    - [ ] copy pass phrase into the `ssh/yourserver-passphrase.json` file and replace `yourserver` with something that identifies the server you will be connecting to.
+    - [ ] edit `"phrasefile"` in `servers/server-yourserver.json`
+  - [ ] 
+- [ ] **GitHub** - 
   - [ ] Get a *personal access token*
   - [ ] Save the token in `tokens/token-github_username.json`
-- [ ]  
+- [ ] **Other** - 
+  - [ ]  
 
 Replace the following occurrences of:
 
 - [ ] `yourserver` - replace with something that identifies the server you will be connecting to
+- [ ] `.whatever` - the TLD of the server you will be connecting to
 - [ ] `github_username` - use your GitHub user name
 - [ ] `yourserver_login` - this is the login name used on your server for SSH/SFTP connections
 - [ ] `your_repository_name_on_github` - this is the name of the repository that this application will access. Since a *personal access token* is used the repository can be public or private
@@ -267,5 +270,9 @@ The version of [phpseclib](https://github.com/phpseclib/phpseclib) used here is 
 # Future
 
 * Obtain files from GitHub via the API instead of locally.
+* Keep a log of which files were changed/uploaded
+* Create a "debug" mode where:
+  * Files are not copied to the server
+  * TBD
 * TBD
 
