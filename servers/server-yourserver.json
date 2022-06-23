@@ -1,0 +1,8 @@
+{
+    "keyfile": "ssh/private_key_file",
+    "phrasefile": "ssh/yourserver-passphrase.json",
+    "server": "yourserver.whatever",
+    "login": "yourserver_login",
+    "home": "/home/yourserver_login/",
+    "docroot": "/home/yourserver_login/public_html/"
+}
