@@ -42,12 +42,12 @@ For the given repository the application can obtain the changed files that occur
 ## Best Practices
 
 * When creating a new repository that this application will use when updating a server:
-  * Immediately after creation tag the repository with 0.0.0 (*numeric only revision numbers are recommended*)
-    * If the 0.0.0 tag is created sometime *after* the repository and other tags have been created and other tags then it *should be* OK. The application will *sort* the tags prior to using them.
-  * Try to be consistent in how you advance the version number. 
+  * Immediately after creation tag the repository with 0.0.0 (*numeric only revision numbers are recommended, this is due to how GitHub sorts tags*)
+    * If the 0.0.0 tag is created sometime *after* repository creation, and other tags have been created then it *should be* OK. The application will *sort* the tags prior to using them.
+  * Try to be consistent with how you advance the version number. 
 * Prior to updating files on the server:
-  * Have properly at least two tagged releases.
-  * All changed files have been committed and pushed to the repository.
+  * Have at least two tagged releases. 
+  * All locally changed repository files have been committed and pushed to the repository.
   * TBD
 
 ## Server and Client
@@ -116,7 +116,8 @@ The default file name is `run.json`:
     "server":"servers/server-yourserver.json",
     "repo":"repos/repo-your_repository_name_on_github.json",
     "mode":"stage",
-    "verbose": true
+    "verbose": true,
+    "debug": false
 }
 ```
 
@@ -245,7 +246,7 @@ See [Required Preparation](#required_preparation) before proceeding, this applic
 - [ ] **Other** - 
   - [ ]  
 
-Replace the following occurrences of:
+Replace the following occurrences of(*includes the renaming of files*):
 
 - [ ] `yourserver` - replace with something that identifies the server you will be connecting to
 - [ ] `.whatever` - the TLD of the server you will be connecting to
@@ -266,6 +267,16 @@ The version of [phpseclib](https://github.com/phpseclib/phpseclib) used here is 
 **Correction:** Change all occurences of `$stat['time']` to `$stat['mtime']`.
 
 **Note:** This appears to be fixed in this [commit](https://github.com/phpseclib/phpseclib/commit/e700ac75612024c0aea72413d1f3731b0fa71910). It was created 10 days after the 3.0.14 release. As of this time (2022-06-21) there have been no new releases.
+
+# Design Details
+
+## Overview
+
+## Build File List
+
+## Copy Files to Server
+
+## 
 
 # Future
 
