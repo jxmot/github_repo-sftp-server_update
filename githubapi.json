@@ -1,0 +1,4 @@
+{
+    "releases": "https://api.github.com/repos/%USER%/%REPO%/releases",
+    "compare":  "https://api.github.com/repos/%USER%/%REPO%/compare/%TAGOLD%...%TAGNEW%"
+}
