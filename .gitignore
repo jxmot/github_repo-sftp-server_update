@@ -1,6 +1,7 @@
 _*.*
 /_*
 composer.*
+devtest/*
 ssh/*
 !ssh/.git*
 vendor/*
