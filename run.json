@@ -3,5 +3,6 @@
     "server":"servers/server-yourserver.json",
     "repo":"repos/repo-your_repository_name_on_github.json",
     "mode":"stage",
-    "verbose": true
+    "verbose": true,
+    "debug": false
 }
