@@ -14,6 +14,7 @@ class GitHubRepo {
      * an SFTP server.
      *
      * @param object $Owner
+     * @param string $bpath
      * @param string $cfile
      * @throws \UnexpectedValueException on missing or bad JSON file
      * @throws \RuntimeException on failed login
@@ -127,5 +128,5 @@ class GitHubRepo {
         } else array_push($tags, "");
         return $tags;
     }
-} //class
+}
 ?>
