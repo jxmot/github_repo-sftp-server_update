@@ -1,4 +1,4 @@
 {
-    "releases": "https://api.github.com/repos/%USER%/%REPO%/releases",
-    "compare":  "https://api.github.com/repos/%USER%/%REPO%/compare/%TAGOLD%...%TAGNEW%"
+    "releases": "https://api.github.com/repos/%OWNER%/%REPO%/releases",
+    "compare":  "https://api.github.com/repos/%OWNER%/%REPO%/compare/%TAGOLD%...%TAGNEW%"
 }
