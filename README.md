@@ -204,6 +204,17 @@ This file should be named `repos/repo-your_repository_name_on_github.json`:
 }
 ```
 
+### GitHub API Endpoints
+
+This file is named `githubapi.json` and should not be modified :
+
+```
+{
+    "releases": "https://api.github.com/repos/%OWNER%/%REPO%/releases",
+    "compare":  "https://api.github.com/repos/%OWNER%/%REPO%/compare/%TAGOLD%...%TAGNEW%"
+}
+```
+
 ## SFTP Server
 
 This file should be named `servers/server-yourserver.json`:
@@ -244,7 +255,8 @@ See [Required Preparation](#required_preparation) before proceeding, this applic
   - [ ] Get a *personal access token*
   - [ ] Save the token in `tokens/token-github_username.json`
 - [ ] **Other** - 
-  - [ ]  
+  - [ ] install [phpseclib](https://github.com/phpseclib/phpseclib)
+  - [ ] copy `phpseclib/SFTP.php` to `vendor/phpseclib/phpseclib/phpseclib/Net/SFTP.php`
 
 Replace the following occurrences of(*includes the renaming of files*):
 
