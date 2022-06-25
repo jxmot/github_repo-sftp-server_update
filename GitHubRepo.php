@@ -101,11 +101,6 @@ class GitHubRepo {
         }
     }
 
-    public function getStaging() {
-        //return $this->repo->staging;
-        return $this->getStage();
-    }
-
     public function getStage() {
         return $this->repo->stage;
     }

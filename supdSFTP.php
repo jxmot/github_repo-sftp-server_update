@@ -43,22 +43,22 @@ class supdSFTP extends SFTP {
         // get configuration data
         if(($this->cfg = $this->getJData($bpath . $cfile)) === null) {
             // https://www.php.net/manual/en/spl.exceptions.php
-            throw new \UnexpectedValueException('ERROR: '.$this->classname.' '.__FUNCTION__.' - missing or bad ' . $bpath . $cfile);
+            throw new \UnexpectedValueException('ERROR: '.$this->classname.' '.__FUNCTION__.'() - missing or bad ' . $bpath . $cfile);
         }
         // get the contents of the private key file and the pass 
         // phrase, and then load the key.
         if(($this->keyguts = $this->getFile($bpath . $this->cfg->keyfile)) === null) {
-            throw new \UnexpectedValueException('ERROR: '.$this->classname.' '.__FUNCTION__.' - missing or bad ' . $bpath . $this->cfg->keyfile);
+            throw new \UnexpectedValueException('ERROR: '.$this->classname.' '.__FUNCTION__.'() - missing or bad ' . $bpath . $this->cfg->keyfile);
         }
         if(($this->pass = $this->getJData($bpath . $this->cfg->phrasefile)) === null) {
-            throw new \UnexpectedValueException('ERROR: '.$this->classname.' '.__FUNCTION__.' - missing or bad: ' . $bpath . $this->cfg->phrasefile);
+            throw new \UnexpectedValueException('ERROR: '.$this->classname.' '.__FUNCTION__.'() - missing or bad: ' . $bpath . $this->cfg->phrasefile);
         }
         $this->key = PublicKeyLoader::load($this->keyguts, $this->pass->phrase);
         // invoke the SFTP constructor
         parent::__construct($this->cfg->server);
         // log in to the server
         if (!$this->login($this->cfg->login, $this->key)) {
-            throw new \RuntimeException('ERROR: '.$this->classname.' '.__FUNCTION__.' - Login Failed: ' . $this->cfg->login . ' - Error: ' . getLastSFTPError());
+            throw new \RuntimeException('ERROR: '.$this->classname.' '.__FUNCTION__.'() - Login Failed: ' . $this->cfg->login . ' - Error: ' . getLastSFTPError());
         }
         // Keep file date & time when transferring between 
         // the server and local
