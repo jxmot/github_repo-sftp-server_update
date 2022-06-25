@@ -12,4 +12,5 @@ vendor/phpseclib/phpseclib/*
 !vendor/phpseclib/phpseclib/phpseclib
 vendor/phpseclib/phpseclib/phpseclib/*
 !vendor/phpseclib/phpseclib/phpseclib/Net
+vendor/phpseclib/phpseclib/phpseclib/Net/*
 !vendor/phpseclib/phpseclib/phpseclib/Net/SFTP.php
