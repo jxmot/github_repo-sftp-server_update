@@ -27,8 +27,8 @@
         "enable": true,
         "path": "backups/%SERVER%/%REPO%/%MODE%/%EPOCHTIME%"
     },
-    "_comment00": "path to the location of the repostiory's local root folder",
-    "sourceroot": "../../",
+    "_comment00": "path to the location of the repository's local root folder",
+    "reporoot": "../../",
     "_comment01": [
         "global exclusions, looks at changed files(paths included) and ",
         "if a match is found then that file is not copied to the server.",
@@ -47,7 +47,7 @@
         "can be done at any time... create a tag 0.0.0 then ",
         "attached a release to the existing tag.",
         "NOTE: creating the 0.0.0 results in a PushEvent without",
-        "any commit content.",
+        "any commit content."
     ],
-    "begtag": "2.1.4",
+    "begtag": "2.1.4"
 }
