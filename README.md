@@ -185,6 +185,15 @@ This file should be named `repos/repo-your_repository_name_on_github.json`:
         "dest": "%DOCROOT%",
         "sourceroot": "public_html/"
     },
+    "backup": {
+        "_comment": [
+            "when enabled, and in 'test' or 'live' modes ",
+            "remote files will be backed up locally before ",
+            "they are overwritten."
+        ],
+        "enable": true,
+        "path": "backups/%SERVER%/%REPO%/%MODE%/%EPOCHTIME%"
+    },
     "_comment00": "path to the location of the repostiory's local root folder",
     "sourceroot": "../../",
     "_comment01": [
