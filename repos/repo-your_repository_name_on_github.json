@@ -2,15 +2,15 @@
     "name": "your_repository_name_on_github",
     "stage": {
         "_comment": "the enitre repository root folder contents will go here.",
-        "dest": "%DOCROOT%/temp/stage/",
+        "dest": "%DOCROOT%temp/stage/",
         "sourceroot": ""
     },
     "test": {
         "_comment": [
             "%DOCROOT% is 'docroot' in sftp-server.json, and everything ",
-            "found in repo/'sourceroot' will be copied to "dest"."
+            "found in repo/'sourceroot' will be copied to 'dest'."
         ],
-        "dest": "%DOCROOT%/test/",
+        "dest": "%DOCROOT%test/",
         "sourceroot": "public_html/"
     },
     "live": {
@@ -18,13 +18,13 @@
         "dest": "%DOCROOT%",
         "sourceroot": "public_html/"
     },
-    "_comment00": "path to the location of the repostiory's root folder",
+    "_comment00": "path to the location of the repostiory's local root folder",
     "sourceroot": "../../",
     "_comment01": [
         "global exclusions, looks at changed files(paths included) and ",
-        "if a match is found then that file is not copied to the server."
+        "if a match is found then that file is not copied to the server.",
         "use regex here, add entries to array as needed"
-    ]
+    ],
     "exclude": ["/^folder_in_repo/i","/gitignore/i","/gitkeep/i","/readme/i"],
     "_comment02": [
         "if endtag is present then use that tag instead of the repos last found tag",
