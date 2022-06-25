@@ -30,8 +30,13 @@ global $move;
     if($ghrepo->isPathExcluded($srcfile)) return false;
     // copy from sourceroot/repofile to docroot/staging/repofile
     $src  = $ghrepo->getSourceRoot() . $srcfile;
-    $dest = $sftp->getDocRoot() . $ghrepo->getStaging() . $srcfile;
+
+//stage
+    $dest = str_replace('%DOCROOT%', $sftp->getDocRoot(), $ghrepo->getStage()->dest) . $srcfile;
+    echo "copy from $src to $dest\n";
+
     $targ = $sftp->getDocRoot() . $srcfile;
+
     array_push($move, [$dest, $targ]);
 
     // make path
