@@ -1,5 +1,6 @@
 _*.*
 /_*
+*.session
 composer.*
 devtest/*
 ssh/*
