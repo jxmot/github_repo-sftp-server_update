@@ -2270,8 +2270,11 @@ class SFTP extends SSH2
             if ($this->preserveTime) {
                 $stat = stat($data);
                 $attr = $this->version < 4 ?
-                    pack('N3', NET_SFTP_ATTR_ACCESSTIME, $stat['atime'], $stat['time']) :
-                    Strings::packSSH2('NQ2', NET_SFTP_ATTR_ACCESSTIME | NET_SFTP_ATTR_MODIFYTIME, $stat['atime'], $stat['time']);
+// jxmot 20220613 - changed 'time' to 'mtime'
+// appears to be "fixed" - https://github.com/phpseclib/phpseclib/commit/e700ac75612024c0aea72413d1f3731b0fa71910
+// will have to wait for next release
+                    pack('N3', NET_SFTP_ATTR_ACCESSTIME, $stat['atime'], $stat['mtime']) :
+                    Strings::packSSH2('NQ2', NET_SFTP_ATTR_ACCESSTIME | NET_SFTP_ATTR_MODIFYTIME, $stat['atime'], $stat['mtime']);
                 if (!$this->setstat($remote_file, $attr, false)) {
                     throw new \RuntimeException('Error setting file time');
                 }
