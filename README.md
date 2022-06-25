@@ -2,6 +2,12 @@
 
 **2022-06-21 Some code has been written, and a "proof of concept" application was created. As development proceeds this README will be updated. Stay Tuned!**
 
+**2022-06-24** tagged release "0.0.1":
+Using appropriately edited JSON configuration files:
+* successfully copied files to a remote server, "stage" destination
+
+---
+
 # github_repo-sftp-server_update
 
 **GitHub Repository Changes, Server Update via SFTP**
