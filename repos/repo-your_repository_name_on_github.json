@@ -1,0 +1,44 @@
+{
+    "name": "your_repository_name_on_github",
+    "stage": {
+        "_comment": "the enitre repository root folder contents will go here.",
+        "dest": "%DOCROOT%/temp/stage/",
+        "sourceroot": ""
+    },
+    "test": {
+        "_comment": [
+            "%DOCROOT% is 'docroot' in sftp-server.json, and everything ",
+            "found in repo/'sourceroot' will be copied to "dest"."
+        ],
+        "dest": "%DOCROOT%/test/",
+        "sourceroot": "public_html/"
+    },
+    "live": {
+        "_comment": "",
+        "dest": "%DOCROOT%",
+        "sourceroot": "public_html/"
+    },
+    "_comment00": "path to the location of the repostiory's root folder",
+    "sourceroot": "../../",
+    "_comment01": [
+        "global exclusions, looks at changed files(paths included) and ",
+        "if a match is found then that file is not copied to the server."
+        "use regex here, add entries to array as needed"
+    ]
+    "exclude": ["/^folder_in_repo/i","/gitignore/i","/gitkeep/i","/readme/i"],
+    "_comment02": [
+        "if endtag is present then use that tag instead of the repos last found tag",
+        "and the begtag=(last found - 1) will be what is found in the repo.",
+        "actually HEAD is the only choice here other than empty"
+    ],
+    "endtag": "HEAD",
+    "_comment03": [
+        "can use 0.0.0 here, but",
+        "requires that the repo has a 0.0.0 release, this ",
+        "can be done at any time... create a tag 0.0.0 then ",
+        "attached a release to the existing tag.",
+        "NOTE: creating the 0.0.0 results in a PushEvent without",
+        "any commit content.",
+    ],
+    "begtag": "2.1.4",
+}
