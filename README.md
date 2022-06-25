@@ -3,6 +3,7 @@
 **2022-06-21 Some code has been written, and a "proof of concept" application was created. As development proceeds this README will be updated. Stay Tuned!**
 
 **2022-06-24** tagged release "0.0.1":
+
 Using appropriately edited JSON configuration files:
 * successfully copied files to a remote server, "stage" destination
 
@@ -31,7 +32,7 @@ The primary use of this application is to keep files up to date on a web server.
 * The local repository is up to date with GitHub. Local files can be newer or different from what is kept in GitHub. However if any files are **not** committed and pushed then they will not appear as "changed".
 * The repository has tagged releases:
   * Start with "0.0.0" and tag a release before any project files are added to the repository.
-  * When preparing to stage, test, or deploy be sure to tag a release.
+  * When preparing to stage, test, or deploy be sure to tag a release first. 
 
 ## Tag Names
 
@@ -168,15 +169,15 @@ This file should be named `repos/repo-your_repository_name_on_github.json`:
     "name": "your_repository_name_on_github",
     "stage": {
         "_comment": "the enitre repository root folder contents will go here.",
-        "dest": "%DOCROOT%/temp/stage/",
+        "dest": "%DOCROOT%temp/stage/",
         "sourceroot": ""
     },
     "test": {
         "_comment": [
             "%DOCROOT% is 'docroot' in sftp-server.json, and everything ",
-            "found in repo/'sourceroot' will be copied to "dest"."
+            "found in repo/'sourceroot' will be copied to 'dest'."
         ],
-        "dest": "%DOCROOT%/test/",
+        "dest": "%DOCROOT%test/",
         "sourceroot": "public_html/"
     },
     "live": {
@@ -184,13 +185,13 @@ This file should be named `repos/repo-your_repository_name_on_github.json`:
         "dest": "%DOCROOT%",
         "sourceroot": "public_html/"
     },
-    "_comment00": "path to the location of the repostiory's root folder",
+    "_comment00": "path to the location of the repostiory's local root folder",
     "sourceroot": "../../",
     "_comment01": [
         "global exclusions, looks at changed files(paths included) and ",
-        "if a match is found then that file is not copied to the server."
+        "if a match is found then that file is not copied to the server.",
         "use regex here, add entries to array as needed"
-    ]
+    ],
     "exclude": ["/^folder_in_repo/i","/gitignore/i","/gitkeep/i","/readme/i"],
     "_comment02": [
         "if endtag is present then use that tag instead of the repos last found tag",
