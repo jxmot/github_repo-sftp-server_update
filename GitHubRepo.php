@@ -113,10 +113,8 @@ class GitHubRepo {
         return $this->repo->test;
     }
 
-
-
-    public function getSourceRoot() {
-        return $this->repo->sourceroot;
+    public function getRepoRoot() {
+        return $this->repo->reporoot;
     }
 
     public function getTags() {
