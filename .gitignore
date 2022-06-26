@@ -2,6 +2,7 @@ _*.*
 /_*
 *.session
 composer.*
+backups/*
 devtest/*
 ssh/*
 !ssh/.git*
