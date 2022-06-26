@@ -7,15 +7,6 @@
     "stage": "repos/stage-%REPONAME%.json",
     "test": "repos/test-%REPONAME%.json",
     "live": "repos/live-%REPONAME%.json",
-    "backup": {
-        "_comment": [
-            "when enabled, and in 'test' or 'live' modes ",
-            "remote files will be backed up locally before ",
-            "they are overwritten."
-        ],
-        "enable": true,
-        "path": "backups/%SERVER%/%REPONAME%/%MODE%/%EPOCHTIME%"
-    },
     "_comment01": "path to the location of the repository's local root folder",
     "reporoot": "../../",
     "_comment02": [

@@ -12,5 +12,9 @@
         ]
         "beg":"0.0.0",
         "end":"HEAD"
+    },
+    "backup": {
+        "enable": true,
+        "path": "backups/%SERVER%/%REPO%/%MODE%/%TIMEDATE%/"
     }
 }
