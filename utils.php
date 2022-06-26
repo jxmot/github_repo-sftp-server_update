@@ -1,57 +1,68 @@
 <?php
 require_once 'modes.php';
 
+function backupFromServer($mode, $dest) {
+global $ghrepo, $sftp, $bupath;
+
+    // if this mode has backups enabled then create 
+    // the path and the local folders to contain the 
+    // backed up files.
+    if(isBackupEnabled($mode) && $sftp->file_exists($dest)) {
+        $budest = $bupath . str_replace(getRepoDest($mode), '', $dest);
+
+        echo "bu fr $dest\n";
+        echo "bu to $budest\n";
+
+        // make path...
+        // split path and file
+        $pos  = strrpos($budest, '/');
+        $path = substr($budest, 0, $pos + 1);
+        // if the path exists then don't mkdir again
+        if(is_dir($path) === false) {
+            // make the folders recursively
+            mkdir($path, 0755, true);
+        }
+        // get the file
+        $sftp->get($dest, $budest);
+        return true;
+    } else return false;
+}
+
 function copyToServer($srcfile, $mode) {
 global $ghrepo, $sftp, $bupath;
 
     // excluded?
     if($ghrepo->isPathExcluded($srcfile)) return false;
-    // copy from reporoot/repofile to docroot/staging/repofile
-    $src  = $ghrepo->getRepoRoot() . $srcfile;
 
-    // handle the current mode
+    // handle the current mode...
     if(function_exists($mode) === true) {
+        // copy from reporoot/repofile to docroot/staging/repofile
+        $src  = $ghrepo->getRepoRoot() . $srcfile;
         $dest = $mode($srcfile);
+
         // if this mode has backups enabled then create 
         // the path and the local folders to contain the 
         // backed up files.
-        if(isBackupEnabled($mode) && $sftp->file_exists($dest)) {
-            $budest = $bupath . str_replace(getRepoDest($mode), '', $dest);
+        backupFromServer($mode, $dest);
 
-            echo "bu fr $dest\n";
-            echo "bu to $budest\n";
+        echo "copy from $src to $dest\n";
 
-            // make path...
-            // split path and file
-            $pos  = strrpos($budest, '/');
-            $path = substr($budest, 0, $pos + 1);
-            // if the path exists then don't mkdir again
-            if(is_dir($path) === false) {
-                // make the folders recursively
-                mkdir($path, 0755, true);
-            }
-            // get the file
-            $sftp->get($dest, $budest);
+        // make path
+        // split path and file
+        $pos  = strrpos($dest, '/');
+        $path = substr($dest, 0, $pos + 1);
+        // make the folders recursively
+        $sftp->mkdir($path);
+        // copy the file to the server
+        $sftp->put($dest, $src);
+        // make shell script files executable 
+        if(strrpos($srcfile, '.sh') === (strlen($srcfile) - 3)) {
+            $sftp->chmod(0755, $dest);
         }
+        return true;
     } else {
         throw new \UnexpectedValueException('ERROR: '.__FUNCTION__.'() unknown mode - '.$mode);
     }
-
-    echo "copy from $src to $dest\n";
-
-    // make path
-    // split path and file
-    $pos  = strrpos($dest, '/');
-    $path = substr($dest, 0, $pos + 1);
-    // make the folders recursively
-    $sftp->mkdir($path);
-    // copy the file to the server
-    $sftp->put($dest, $src);
-    // make shell script files executable 
-    if(strrpos($srcfile, '.sh') === (strlen($srcfile) - 3)) {
-        $sftp->chmod(0755, $dest);
-    }
-    return true;
 }
 
 function getChangedFiles($mode) {
