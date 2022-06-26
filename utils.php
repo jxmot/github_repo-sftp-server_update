@@ -34,35 +34,32 @@ global $ghrepo, $sftp, $bupath;
     // excluded?
     if($ghrepo->isPathExcluded($srcfile)) return false;
 
+    // copy from reporoot/repofile to docroot/staging/repofile
+    $src  = $ghrepo->getRepoRoot() . $srcfile;
+
     // handle the current mode...
-    if(function_exists($mode) === true) {
-        // copy from reporoot/repofile to docroot/staging/repofile
-        $src  = $ghrepo->getRepoRoot() . $srcfile;
-        $dest = $mode($srcfile);
+    $dest = getModeDest($mode, $srcfile);
 
-        // if this mode has backups enabled then create 
-        // the path and the local folders to contain the 
-        // backed up files.
-        backupFromServer($mode, $dest);
+    // if this mode has backups enabled then create 
+    // the path and the local folders to contain the 
+    // backed up files.
+    backupFromServer($mode, $dest);
 
-        echo "copy from $src to $dest\n";
+    echo "copy from $src to $dest\n";
 
-        // make path
-        // split path and file
-        $pos  = strrpos($dest, '/');
-        $path = substr($dest, 0, $pos + 1);
-        // make the folders recursively
-        $sftp->mkdir($path);
-        // copy the file to the server
-        $sftp->put($dest, $src);
-        // make shell script files executable 
-        if(strrpos($srcfile, '.sh') === (strlen($srcfile) - 3)) {
-            $sftp->chmod(0755, $dest);
-        }
-        return true;
-    } else {
-        throw new \UnexpectedValueException('ERROR: '.__FUNCTION__.'() unknown mode - '.$mode);
+    // make path
+    // split path and file
+    $pos  = strrpos($dest, '/');
+    $path = substr($dest, 0, $pos + 1);
+    // make the folders recursively
+    $sftp->mkdir($path);
+    // copy the file to the server
+    $sftp->put($dest, $src);
+    // make shell script files executable 
+    if(strrpos($srcfile, '.sh') === (strlen($srcfile) - 3)) {
+        $sftp->chmod(0755, $dest);
     }
+    return true;
 }
 
 function getChangedFiles($mode) {
