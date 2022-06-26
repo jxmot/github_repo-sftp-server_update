@@ -21,5 +21,22 @@ function live($srcfile) {
         $srcfile = str_replace($ghrepo->getLive()->sourceroot, '', $srcfile);
     }
     return str_replace('%DOCROOT%', $sftp->getDocRoot(), $ghrepo->getLive()->dest) . $srcfile;
-};
+}
+
+function isBackupEnabled($mode) {
+    global $ghrepo;
+    $func = 'get'.ucwords($mode);
+    return $ghrepo->{$func}()->backup->enable;
+}
+
+function getBackupPath($mode) {
+    global $ghrepo, $sftp;
+    if(isBackupEnabled($mode)) {
+        $func = 'get'.ucwords($mode);
+        $path = str_replace(['%SERVER%','%REPO%','%MODE%','%TIMEDATE%'], 
+                            [$sftp->getServer(), $ghrepo->getName(), $mode, rightnow('path')], 
+                            $ghrepo->{$func}()->backup->path);
+        return $path;
+    } else return '';
+}
 ?>
