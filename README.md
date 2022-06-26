@@ -20,7 +20,7 @@ This is a PHP application that:
   * Obtains a list of changed files between two tags.
 * Builds a list of (local) path+files using the changed file list.
 * Uses SFTP to transfer the (local) files to a server using predefined destinations(*aka "modes"*):
-  * **staging**: uploads *select* paths and files to a designated "staging" area on the server.
+  * **stage**: uploads *select* paths and files to a designated "staging" area on the server.
   * **test**: uploads *select* paths and files to a "testing" area on the server. 
   * **live**: uploads *select* paths and files to the "live" area on the server.
 * Uses SFTP to transfer(*back up*) files **from** the server prior to overwriting them. NOTE: The file timestamps are preserved when transferring them to the server.
@@ -29,7 +29,7 @@ This is a PHP application that:
 The primary use of this application is to keep files up to date on a web server. It will rely on the following:
 
 * The GitHub repository exists on local storage. This is likely to be the location where you edit and locally test your files.
-* The local repository is up to date with GitHub. Local files can be newer or different from what is kept in GitHub. However if any files are **not** committed and pushed then they will not appear as "changed".
+* The local repository is up to date with GitHub. Local files can be newer or different from what is kept in GitHub. However if any files are **not** committed and pushed then they will not appear as "changed" and will not be copied to the server.
 * The repository has tagged releases:
   * Start with "0.0.0" and tag a release before any project files are added to the repository.
   * When preparing to stage, test, or deploy be sure to tag a release first. 
@@ -177,15 +177,6 @@ This file should be named `repos/repo-your_repository_name_on_github.json`:
     "stage": "repos/stage-%REPONAME%.json",
     "test": "repos/test-%REPONAME%.json",
     "live": "repos/live-%REPONAME%.json",
-    "backup": {
-        "_comment": [
-            "when enabled, and in 'test' or 'live' modes ",
-            "remote files will be backed up locally before ",
-            "they are overwritten."
-        ],
-        "enable": true,
-        "path": "backups/%SERVER%/%REPONAME%/%MODE%/%EPOCHTIME%"
-    },
     "_comment01": "path to the location of the repository's local root folder",
     "reporoot": "../../",
     "_comment02": [
@@ -239,6 +230,10 @@ If you need to add more "modes":
             "actually HEAD is the only choice for 'end' other than empty"
         ],
         "end":"HEAD"
+    },
+    "backup": {
+        "enable": false,
+        "path": ""
     }
 }
 ```
@@ -256,6 +251,10 @@ If you need to add more "modes":
     "tags": {
         "beg":"0.0.0",
         "end":"HEAD"
+    },
+    "backup": {
+        "enable": true,
+        "path": "backups/%SERVER%/%REPO%/%MODE%/%TIMEDATE%/"
     }
 }
 ```
@@ -277,6 +276,10 @@ If you need to add more "modes":
         ]
         "beg":"0.0.0",
         "end":"HEAD"
+    },
+    "backup": {
+        "enable": true,
+        "path": "backups/%SERVER%/%REPO%/%MODE%/%TIMEDATE%/"
     }
 }
 ```
