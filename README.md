@@ -5,7 +5,17 @@
 **2022-06-24** tagged release "0.0.1":
 
 Using appropriately edited JSON configuration files:
+
 * successfully copied files to a remote server, "stage" destination
+
+**2022-06-26** tagged release "0.0.2":
+
+Many changes, including:
+* Prior to copying a file to the server, if it exists there then back up the file locally. This is optional on a per mode basis.
+* README updates, still in draft
+* Refactored JSON config files. Mostly in `repos/`.
+
+The code was tested with a private repository and a "live" server. All modes (*as described in the README*) work as expected, including file backups. No bugs were **seen**.
 
 ---
 
