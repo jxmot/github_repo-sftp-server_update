@@ -205,7 +205,7 @@ Currently there are 3 "modes":
 * test - files will be uploaded to a "test" area on your server. For websites it would typically be located at `publc_html/test`.
 * live - files will be uploaded to `public_html`.
 
-If you need to add more "modes" just add a function to `modes.php`. Then use that function name in the `"modes"` property in `run.json`.
+If you need to add more "modes" just add a function to `modes.php`. Then use that function name in the `"modes"` property in `run.json`. Then create a JSON configuration file for the new mode using one of the existing files as a guide.
 
 **"Stage" Mode Example Configuration**
 
