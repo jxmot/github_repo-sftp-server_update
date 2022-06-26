@@ -136,5 +136,9 @@ class GitHubRepo {
         } else array_push($tags, "");
         return $tags;
     }
+
+    public function getName() {
+        return $this->repo->name;
+    }
 }
 ?>
