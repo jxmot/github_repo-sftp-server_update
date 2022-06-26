@@ -35,7 +35,7 @@ function getBackupPath($mode) {
     global $ghrepo, $sftp;
     if(isBackupEnabled($mode)) {
         $func = 'get'.ucwords($mode);
-        $path = str_replace(['%SERVER%','%REPO%','%MODE%','%TIMEDATE%'], 
+        $path = str_replace(['%SERVER%','%REPO%','%MODE%','%DATETIME%'], 
                             [$sftp->getServer(), $ghrepo->getName(), $mode, rightnow('path')], 
                             $ghrepo->{$func}()->backup->path);
         return $path;

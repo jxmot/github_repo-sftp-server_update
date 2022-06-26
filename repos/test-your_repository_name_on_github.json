@@ -11,6 +11,6 @@
     },
     "backup": {
         "enable": true,
-        "path": "backups/%SERVER%/%REPO%/%MODE%/%TIMEDATE%/"
+        "path": "backups/%SERVER%/%REPO%/%MODE%/%DATETIME%/"
     }
 }
