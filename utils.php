@@ -28,7 +28,7 @@ global $ghrepo, $sftp, $bupath;
     } else return false;
 }
 
-function copyToServer($srcfile, $mode) {
+function copyToServer($srcfile, $mode, $newfile = true) {
 global $ghrepo, $sftp, $bupath;
 
     // excluded?
@@ -43,7 +43,7 @@ global $ghrepo, $sftp, $bupath;
     // if this mode has backups enabled then create 
     // the path and the local folders to contain the 
     // backed up files.
-    backupFromServer($mode, $dest);
+    if($newfile === false) backupFromServer($mode, $dest);
 
     echo "copy from $src to $dest\n";
 

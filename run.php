@@ -72,7 +72,7 @@ for($ix = 0; $ix < count($modfiles); $ix++) {
             }
         }
     } else {
-        $ret = copyToServer($modfiles[$ix], $runcfg->mode);
+        $ret = copyToServer($modfiles[$ix], $runcfg->mode, false);
         if(!$ret) echo "mod excluded - $modfiles[$ix]\n";
     }
 }
