@@ -27,8 +27,17 @@ getChangedFiles($runcfg->mode);
 
 sortFiles();
 
+// 
 echo 'backup is ' . (isBackupEnabled($runcfg->mode) ? 'ON' : 'OFF') . "\n";
-echo 'backup path - ' . getBackupPath($runcfg->mode) . "\n";
+
+if(isBackupEnabled($runcfg->mode)) {
+    $bupath = getBackupPath($runcfg->mode);
+    echo 'backup path - ' . $bupath . "\n";
+    // backup folder will be made even if nothing goes in it.
+    mkdir($bupath, 0755, true);
+} else {
+    $bupath = '';
+}
 
 /*
 */
@@ -65,6 +74,16 @@ for($ix = 0; $ix < count($modfiles); $ix++) {
     } else {
         $ret = copyToServer($modfiles[$ix], $runcfg->mode);
         if(!$ret) echo "mod excluded - $modfiles[$ix]\n";
+    }
+}
+
+// if the backup destination is empty then 
+// remove the empty timestamped folder
+if(isBackupEnabled($runcfg->mode)) {
+    $res = scandir($bupath);
+    if(count($res) <= 2) {
+        echo "removing empty dir - $bupath\n";
+        rmdir($bupath);
     }
 }
 ?>

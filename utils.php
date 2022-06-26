@@ -2,7 +2,7 @@
 require_once 'modes.php';
 
 function copyToServer($srcfile, $mode) {
-global $ghrepo, $sftp;
+global $ghrepo, $sftp, $bupath;
 
     // excluded?
     if($ghrepo->isPathExcluded($srcfile)) return false;
@@ -12,6 +12,27 @@ global $ghrepo, $sftp;
     // handle the current mode
     if(function_exists($mode) === true) {
         $dest = $mode($srcfile);
+        // if this mode has backups enabled then create 
+        // the path and the local folders to contain the 
+        // backed up files.
+        if(isBackupEnabled($mode) && $sftp->file_exists($dest)) {
+            $budest = $bupath . str_replace(getRepoDest($mode), '', $dest);
+
+            echo "bu fr $dest\n";
+            echo "bu to $budest\n";
+
+            // make path...
+            // split path and file
+            $pos  = strrpos($budest, '/');
+            $path = substr($budest, 0, $pos + 1);
+            // if the path exists then don't mkdir again
+            if(is_dir($path) === false) {
+                // make the folders recursively
+                mkdir($path, 0755, true);
+            }
+            // get the file
+            $sftp->get($dest, $budest);
+        }
     } else {
         throw new \UnexpectedValueException('ERROR: '.__FUNCTION__.'() unknown mode - '.$mode);
     }

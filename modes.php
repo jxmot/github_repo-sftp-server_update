@@ -41,4 +41,11 @@ function getBackupPath($mode) {
         return $path;
     } else return '';
 }
+
+function getRepoDest($mode) {
+    global $ghrepo, $sftp;
+    $func = 'get'.ucwords($mode);
+    $tmp = $ghrepo->{$func}()->dest;
+    return str_replace('%DOCROOT%', $sftp->getDocRoot(), $tmp);
+}
 ?>
