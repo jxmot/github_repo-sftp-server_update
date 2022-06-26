@@ -111,6 +111,9 @@ In addition to being placed in appropriate locations the configuration files use
 * **`owner-*.json`**:
 * **`token-*.json`**:
 * **`repo-*.json`**: 
+  * **`stage-*.json`**:
+  * **`test-*.json`**:
+  * **`live-*.json`**:
 * **`server-*.json`**: 
 
 ## Application Run
@@ -143,7 +146,7 @@ This file should be named `owners/owner-github_username.json`:
 ```
 {
     "owner": "github_username",
-    "tokenfile": "../tokens/token-github_username.json"
+    "tokenfile": "tokens/token-github_username.json"
 }
 ```
 
@@ -167,24 +170,13 @@ This file should be named `repos/repo-your_repository_name_on_github.json`:
 ```
 {
     "name": "your_repository_name_on_github",
-    "stage": {
-        "_comment": "the enitre repository root folder contents will go here.",
-        "dest": "%DOCROOT%temp/stage/",
-        "sourceroot": ""
-    },
-    "test": {
-        "_comment": [
-            "%DOCROOT% is 'docroot' in sftp-server.json, and everything ",
-            "found in repo/'sourceroot' will be copied to 'dest'."
-        ],
-        "dest": "%DOCROOT%test/",
-        "sourceroot": "public_html/"
-    },
-    "live": {
-        "_comment": "",
-        "dest": "%DOCROOT%",
-        "sourceroot": "public_html/"
-    },
+    "_comment00": [
+        "each of the files below contains: destinaton path, ",
+        "source root folder, and search tags."
+    ],
+    "stage": "repos/stage-%REPONAME%.json",
+    "test": "repos/test-%REPONAME%.json",
+    "live": "repos/live-%REPONAME%.json",
     "backup": {
         "_comment": [
             "when enabled, and in 'test' or 'live' modes ",
@@ -192,33 +184,99 @@ This file should be named `repos/repo-your_repository_name_on_github.json`:
             "they are overwritten."
         ],
         "enable": true,
-        "path": "backups/%SERVER%/%REPO%/%MODE%/%EPOCHTIME%"
+        "path": "backups/%SERVER%/%REPONAME%/%MODE%/%EPOCHTIME%"
     },
-    "_comment00": "path to the location of the repostiory's local root folder",
-    "sourceroot": "../../",
-    "_comment01": [
+    "_comment01": "path to the location of the repository's local root folder",
+    "reporoot": "../../",
+    "_comment02": [
         "global exclusions, looks at changed files(paths included) and ",
         "if a match is found then that file is not copied to the server.",
-        "use regex here, add entries to array as needed"
+        "use regex here, add entries to the array as needed"
     ],
-    "exclude": ["/^folder_in_repo/i","/gitignore/i","/gitkeep/i","/readme/i"],
-    "_comment02": [
-        "if endtag is present then use that tag instead of the repos last found tag",
-        "and the begtag=(last found - 1) will be what is found in the repo.",
-        "actually HEAD is the only choice here other than empty"
-    ],
-    "endtag": "HEAD",
-    "_comment03": [
-        "can use 0.0.0 here, but",
-        "requires that the repo has a 0.0.0 release, this ",
-        "can be done at any time... create a tag 0.0.0 then ",
-        "attached a release to the existing tag.",
-        "NOTE: creating the 0.0.0 results in a PushEvent without",
-        "any commit content.",
-    ],
-    "begtag": "2.1.4",
+    "exclude": ["/^folder_in_repo/i","/gitignore/i","/gitkeep/i","/readme/i"]
 }
 ```
+
+**Repository "Mode" Configuration Files**
+
+Currently there are 3 "modes":
+
+* stage - files will be uploaded to a "staging" area on your server. It's location and end-use is up to you.
+* test - files will be uploaded to a "test" area on your server. For websites it would typically be located at `publc_html/test`.
+* live - files will be uploaded to `public_html`.
+
+If you need to add more "modes" just add a function to `modes.php`. Then use that function name in the `"modes"` property in `run.json`.
+
+**"Stage" Mode Example Configuration**
+
+```
+{
+    "_comment00": [
+        "the entire repository root folder contents will go here.",
+        "except if filtered out with the 'exclude' list."
+    ],
+    "dest": "%DOCROOT%temp/stage/",
+    "sourceroot": "",
+    "_comment01": "edit tags->beg and tags->end as needed",
+    "tags": {
+        "_comment00": [
+            "can use 0.0.0 here, but",
+            "requires that the repo has a 0.0.0 release, this ",
+            "can be done at any time... create a tag 0.0.0 then ",
+            "attached a release to the existing tag.",
+            "NOTE: creating the 0.0.0 results in a PushEvent without",
+            "any commit content."
+        ],
+        "beg":"2.1.4",
+        "_comment01": [
+            "if 'end' is present then use that tag instead of the repos last found tag",
+            "and the beg=(last found - 1) will be what is found in the repo.",
+            "actually HEAD is the only choice for 'end' other than empty"
+        ],
+        "end":"HEAD"
+    }
+}
+```
+
+**"Test" Mode Example Configuration**
+
+```
+{
+    "_comment": [
+        "%DOCROOT% is 'docroot' in sftp-server.json, and everything ",
+        "found in repo/'sourceroot' will be copied to 'dest'."
+    ],
+    "dest": "%DOCROOT%test/",
+    "sourceroot": "public_html/",
+    "tags": {
+        "beg":"0.0.0",
+        "end":"HEAD"
+    }
+}
+```
+
+**"Live" Mode Example Configuration**
+
+```
+{
+    "_comment": [
+        "%DOCROOT% is 'docroot' in sftp-server.json, and everything ",
+        "found in repo/'sourceroot' will be copied to 'dest'."
+    ],
+    "dest": "%DOCROOT%",
+    "sourceroot": "public_html/",
+    "tags": {
+        "_comment": [
+            "this will get all of the files in the repository. ",
+            "the 'exclude' list will filter out unwanted files or folders."
+        ]
+        "beg":"0.0.0",
+        "end":"HEAD"
+    }
+}
+```
+
+The differences between the files are in the `"dest"` and `"sourceroot"` paths, and in `"tags":{}`. 
 
 ### GitHub API Endpoints
 
