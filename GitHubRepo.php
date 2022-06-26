@@ -25,10 +25,17 @@ class GitHubRepo {
         $this->owner = $Owner->GetOwner();
         $this->token = $Owner->GetToken();
         $this->repo  = $this->getJData($bpath . $rfile);
+
         if($this->repo === null) {
             // https://www.php.net/manual/en/spl.exceptions.php
             throw new \UnexpectedValueException('ERROR: '.$this->classname.' '.__FUNCTION__.'() - missing or bad ' . $bpath . $rfile);
         }
+
+        // read the JSON file named in the string repo->stage, then 
+        // replace repo->stage with the object created from the file.
+        $this->repo->stage = $this->getJData($bpath . str_replace('%REPONAME%', $this->repo->name, $this->repo->stage));
+        $this->repo->test  = $this->getJData($bpath . str_replace('%REPONAME%', $this->repo->name, $this->repo->test));
+        $this->repo->live  = $this->getJData($bpath . str_replace('%REPONAME%', $this->repo->name, $this->repo->live));
     }
 
     private function makeHeader($tok = null) {
