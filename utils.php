@@ -87,4 +87,9 @@ global $delfiles;
     echo "mod - " . count($modfiles) . "\n";
     echo "del - " . count($delfiles) . "\n";
 }
+
+function tzone() {
+    $tmp = json_decode(file_get_contents('tzone.json'));
+    return $tmp->tz;
+}
 ?>
