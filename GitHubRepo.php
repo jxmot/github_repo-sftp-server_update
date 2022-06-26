@@ -125,13 +125,14 @@ class GitHubRepo {
         return $this->repo->reporoot;
     }
 
-    public function getTags() {
+    public function getTags($mode) {
         $tags = [];
-        if(isset($this->repo->begtag) && ($this->repo->begtag !== "")) {
-            array_push($tags, $this->repo->begtag);
+
+        if(isset($this->repo->{$mode}->tags->beg) && ($this->repo->{$mode}->tags->beg !== "")) {
+            array_push($tags, $this->repo->{$mode}->tags->beg);
         } else array_push($tags, "");
-        if(isset($this->repo->endtag) && ($this->repo->endtag !== "")) {
-            array_push($tags, $this->repo->endtag);
+        if(isset($this->repo->{$mode}->tags->end) && ($this->repo->{$mode}->tags->end !== "")) {
+            array_push($tags, $this->repo->{$mode}->tags->end);
         } else array_push($tags, "");
         return $tags;
     }
