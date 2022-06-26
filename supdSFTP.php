@@ -150,5 +150,9 @@ class supdSFTP extends SFTP {
     public function getDocRoot() {
         return $this->docroot;
     }
+
+    public function getServer() {
+        return $this->cfg->server;
+    }
 }
 ?>
