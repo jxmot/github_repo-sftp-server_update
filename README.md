@@ -24,6 +24,7 @@ This is a PHP application that:
   * **test**: uploads *select* paths and files to a "testing" area on the server. 
   * **live**: uploads *select* paths and files to the "live" area on the server.
 * Uses SFTP to transfer(*back up*) files **from** the server prior to overwriting them. NOTE: The file timestamps are preserved when transferring them to the server.
+* If "backups" are enabled then prior to copying a file to the server it will be copied *from* the server and placed in   a timestamped backup folder.
 * Run from the command line or execute via a script.
 
 The primary use of this application is to keep files up to date on a web server. It will rely on the following:
@@ -196,6 +197,8 @@ Currently there are 3 "modes":
 * test - files will be uploaded to a "test" area on your server. For websites it would typically be located at `publc_html/test`.
 * live - files will be uploaded to `public_html`.
 
+Each mode can be configured to enable "backups". If enabled then files are backed up from the server just before uploading them to the server.
+
 If you need to add more "modes":
 
 * Add a function to `modes.php`. Then use that function name in the `"modes"` property in `run.json`. 
@@ -284,7 +287,11 @@ If you need to add more "modes":
 }
 ```
 
-The differences between the files are in the `"dest"` and `"sourceroot"` paths, and in `"tags":{}`. 
+The primary differences between the files are in the `"dest"` and `"sourceroot"` paths, and in `"tags":{}`. The other difference is in whether or not "backups" have been enabled. This can be done on a "per mode" basis.
+
+### Backups
+
+
 
 ### GitHub API Endpoints
 
@@ -381,3 +388,5 @@ The version of [phpseclib](https://github.com/phpseclib/phpseclib) used here is 
   * TBD
 * TBD
 
+---
+<img src="http://webexperiment.info/extcounter/mdcount.php?id=github_repo-sftp-server_update">
