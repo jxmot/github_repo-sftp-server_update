@@ -27,6 +27,9 @@ getChangedFiles($runcfg->mode);
 
 sortFiles();
 
+echo 'backup is ' . (isBackupEnabled($runcfg->mode) ? 'ON' : 'OFF') . "\n";
+echo 'backup path - ' . getBackupPath($runcfg->mode) . "\n";
+
 /*
 */
 $test = $runcfg->debug;
