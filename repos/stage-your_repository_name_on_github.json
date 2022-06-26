@@ -1,0 +1,26 @@
+{
+    "_comment00": [
+        "the entire repository root folder contents will go here.",
+        "except if filtered out with the 'exclude' list."
+    ],
+    "dest": "%DOCROOT%temp/stage/",
+    "sourceroot": "",
+    "_comment01": "edit tags->beg and tags->end as needed",
+    "tags": {
+        "_comment00": [
+            "can use 0.0.0 here, but",
+            "requires that the repo has a 0.0.0 release, this ",
+            "can be done at any time... create a tag 0.0.0 then ",
+            "attached a release to the existing tag.",
+            "NOTE: creating the 0.0.0 results in a PushEvent without",
+            "any commit content."
+        ],
+        "beg":"2.1.4",
+        "_comment01": [
+            "if 'end' is present then use that tag instead of the repos last found tag",
+            "and the beg=(last found - 1) will be what is found in the repo.",
+            "actually HEAD is the only choice for 'end' other than empty"
+        ],
+        "end":"HEAD"
+    }
+}

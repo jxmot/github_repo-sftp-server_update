@@ -1,0 +1,12 @@
+{
+    "_comment": [
+        "%DOCROOT% is 'docroot' in sftp-server.json, and everything ",
+        "found in repo/'sourceroot' will be copied to 'dest'."
+    ],
+    "dest": "%DOCROOT%test/",
+    "sourceroot": "public_html/",
+    "tags": {
+        "beg":"0.0.0",
+        "end":"HEAD"
+    }
+}

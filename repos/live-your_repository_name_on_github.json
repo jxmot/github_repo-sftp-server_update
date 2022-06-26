@@ -1,0 +1,16 @@
+{
+    "_comment": [
+        "%DOCROOT% is 'docroot' in sftp-server.json, and everything ",
+        "found in repo/'sourceroot' will be copied to 'dest'."
+    ],
+    "dest": "%DOCROOT%",
+    "sourceroot": "public_html/",
+    "tags": {
+        "_comment": [
+            "this will get all of the files in the repository. ",
+            "the 'exclude' list will filter out unwanted files or folders."
+        ]
+        "beg":"0.0.0",
+        "end":"HEAD"
+    }
+}
