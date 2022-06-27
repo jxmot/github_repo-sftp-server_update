@@ -4,5 +4,6 @@
     "repo":"repos/repo-your_repository_name_on_github.json",
     "mode":"stage",
     "verbose": true,
+    "tstamp": true,
     "debug": false
 }
