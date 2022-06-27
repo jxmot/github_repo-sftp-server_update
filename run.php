@@ -18,10 +18,11 @@ $runcfg = json_decode(file_get_contents($runit));
 /*
 */
 $debug = $runcfg->debug;
+if($debug) echo "DEBUG mode is ON\n";
+if($runcfg->verbose) echo "VERBOSE is ENABLED\n\n";
 
 require_once 'rightnow.php';
 require_once 'appecho.php';
-
 require_once 'init.php';
 
 $chgdata = null;
@@ -35,16 +36,20 @@ getChangedFiles($runcfg->mode);
 
 sortFiles();
 
-appEcho('backup is ' . (isBackupEnabled($runcfg->mode) ? 'ON' : 'OFF') . "\n");
-
 if(isBackupEnabled($runcfg->mode)) {
     $bupath = getBackupPath($runcfg->mode);
-    appEcho("backup path - $bupath\n");
+    appEcho("backup is ON, path = $bupath\n");
     // backup folder will be made even if nothing goes in it.
     if($debug === false) mkdir($bupath, 0755, true);
+    // but if it's empty when we're done then the timestamped 
+    // folder will be removed and the rest of the path will 
+    // remain intact.
 } else {
+    appEcho("backup is OFF\n");
     $bupath = '';
 }
+
+appEcho(">>>>> BEGIN\n");
 
 $reporoot = $ghrepo->getRepoRoot();
 
@@ -80,13 +85,17 @@ for($ix = 0; $ix < count($modfiles); $ix++) {
     }
 }
 
-// if the backup destination is empty then 
-// remove the empty timestamped folder
+// TODO: See what happens if a files is deleted from the repo and 
+// if we can see it here. If so, then delete the file from the server.
+
+// if the backup destination is empty then remove the empty timestamped folder
 if(isBackupEnabled($runcfg->mode) && ($debug === false)) {
     $res = scandir($bupath);
     if(count($res) <= 2) {
-        appEcho("removing empty dir - $bupath\n");
+        appEcho("removing empty folder - $bupath\n");
         if($debug === false) rmdir($bupath);
     }
 }
+
+appEcho(">>>>> END\n");
 ?>
