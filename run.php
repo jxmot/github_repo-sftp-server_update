@@ -14,6 +14,13 @@ if(file_exists($runit) === false) {
 }
 
 $runcfg = json_decode(file_get_contents($runit));
+
+/*
+*/
+$debug = $runcfg->debug;
+
+require_once 'appecho.php';
+
 require_once 'init.php';
 
 $chgdata = null;
@@ -27,63 +34,58 @@ getChangedFiles($runcfg->mode);
 
 sortFiles();
 
-// 
-echo 'backup is ' . (isBackupEnabled($runcfg->mode) ? 'ON' : 'OFF') . "\n";
+appEcho('backup is ' . (isBackupEnabled($runcfg->mode) ? 'ON' : 'OFF') . "\n");
 
 if(isBackupEnabled($runcfg->mode)) {
     $bupath = getBackupPath($runcfg->mode);
-    echo 'backup path - ' . $bupath . "\n";
+    appEcho("backup path - $bupath\n");
     // backup folder will be made even if nothing goes in it.
-    mkdir($bupath, 0755, true);
+    if($debug === false) mkdir($bupath, 0755, true);
 } else {
     $bupath = '';
 }
 
-/*
-*/
-$test = $runcfg->debug;
-
 $reporoot = $ghrepo->getRepoRoot();
 
 for($ix = 0; $ix < count($newfiles); $ix++) {
-    if($test === true) {
+    if($debug === true) {
         if($ghrepo->isPathExcluded($newfiles[$ix])) {
-            echo "EXclude new " . $reporoot . $newfiles[$ix] . "\n";
+            appEcho("EXclude new $reporoot$newfiles[$ix]\n");
         } else {
-            echo "include new " . $reporoot . $newfiles[$ix] . "\n";
+            appEcho("include new $reporoot$newfiles[$ix]\n");
             if(strrpos($newfiles[$ix], '.sh') === (strlen($newfiles[$ix]) - 3)) {
-                echo "CHMOD - " . $newfiles[$ix] . "\n";
+                appEcho("CHMOD - $newfiles[$ix]\n");
             }
         }
     } else {
         $ret = copyToServer($newfiles[$ix], $runcfg->mode);
-        if(!$ret) echo "new excluded - $newfiles[$ix]\n";
+        if(!$ret) appEcho("new excluded - $newfiles[$ix]\n");
     }
 }
 
 for($ix = 0; $ix < count($modfiles); $ix++) {
-    if($test === true) {
+    if($debug === true) {
         if($ghrepo->isPathExcluded($modfiles[$ix])) {
-            echo "EXclude mod " . $reporoot .$modfiles[$ix] . "\n";
+            appEcho("EXclude mod $reporoot$modfiles[$ix]\n");
         } else {
-            echo "include mod " . $reporoot .$modfiles[$ix] . "\n";
+            appEcho("include mod $reporoot$modfiles[$ix]\n");
             if(strrpos($modfiles[$ix], '.sh') === (strlen($modfiles[$ix]) - 3)) {
-                echo "CHMOD - " . $modfiles[$ix] . "\n";
+                appEcho("CHMOD - $modfiles[$ix]\n");
             }
         }
     } else {
         $ret = copyToServer($modfiles[$ix], $runcfg->mode, false);
-        if(!$ret) echo "mod excluded - $modfiles[$ix]\n";
+        if(!$ret) appEcho("mod excluded - $modfiles[$ix]\n");
     }
 }
 
 // if the backup destination is empty then 
 // remove the empty timestamped folder
-if(isBackupEnabled($runcfg->mode)) {
+if(isBackupEnabled($runcfg->mode) && ($debug === false)) {
     $res = scandir($bupath);
     if(count($res) <= 2) {
-        echo "removing empty dir - $bupath\n";
-        rmdir($bupath);
+        appEcho("removing empty dir - $bupath\n");
+        if($debug === false) rmdir($bupath);
     }
 }
 ?>

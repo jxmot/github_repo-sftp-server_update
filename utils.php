@@ -10,8 +10,8 @@ global $ghrepo, $sftp, $bupath;
     if(isBackupEnabled($mode) && $sftp->file_exists($dest)) {
         $budest = $bupath . str_replace(getRepoDest($mode), '', $dest);
 
-        echo "bu fr $dest\n";
-        echo "bu to $budest\n";
+        appEcho("bu fr $dest\n");
+        appEcho("bu to $budest\n");
 
         // make path...
         // split path and file
@@ -45,7 +45,7 @@ global $ghrepo, $sftp, $bupath;
     // backed up files.
     if($newfile === false) backupFromServer($mode, $dest);
 
-    echo "copy from $src to $dest\n";
+    appEcho("copy from $src to $dest\n");
 
     // make path
     // split path and file
@@ -68,9 +68,9 @@ global $ghrepo, $chgdata;
     $rtags = $ghrepo->getTags($mode);
 
     if($rtags[0] !== "" && $rtags[1] !== "") {
-        echo $rtags[0]." to ".$rtags[1]."\n";
+        appEcho("{$rtags[0]} to {$rtags[1]}\n");
         $chgdata = json_decode($ghrepo->getRepoChanges($rtags[0],$rtags[1]));
-        echo "total = ".count($chgdata->files)."\n";
+        appEcho("total = ".count($chgdata->files)."\n");
     } else {
         $reldata = json_decode($ghrepo->getRepoReleases());
         if($reldata === null) {
@@ -78,8 +78,8 @@ global $ghrepo, $chgdata;
             throw new \UnexpectedValueException('ERROR: reldata is null');
         }
         if(count($reldata) > 2) {
-            echo "tag 0 - " . $reldata[0]->tag_name . "\n";
-            echo "tag 1 - " . $reldata[1]->tag_name . "\n";
+            appEcho("tag 0 - {$reldata[0]->tag_name}\n");
+            appEcho("tag 1 - {$reldata[1]->tag_name}\n");
             $chgdata = json_decode($ghrepo->getRepoChanges($reldata[1]->tag_name,$reldata[0]->tag_name));
         } else {
             throw new \UnexpectedValueException('ERROR: reldata count is bad ' . count($reldata));
@@ -112,9 +112,9 @@ global $delfiles;
                 break;
         }
     }
-    echo "new - " . count($newfiles) . "\n";
-    echo "mod - " . count($modfiles) . "\n";
-    echo "del - " . count($delfiles) . "\n";
+    appEcho("new - ".count($newfiles)."\n");
+    appEcho("mod - ".count($modfiles)."\n");
+    appEcho("del - ".count($delfiles)."\n");
 }
 
 function tzone() {

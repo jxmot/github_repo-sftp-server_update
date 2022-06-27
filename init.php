@@ -4,8 +4,8 @@ require_once 'GitHubOwner.php';
 use serverupdate\GitHubOwner;
 $ghuser = new GitHubOwner($bpath, $runcfg->owner);
 
-echo 'Owner - ' . $ghuser->GetOwner() . "\n";
-echo 'Token - ' . $ghuser->GetToken() . "\n";
+appEcho("Owner - {$ghuser->GetOwner()}\n");
+appEcho("Token - {$ghuser->GetToken()}\n");
 
 require_once 'GitHubRepo.php';
 use serverupdate\GitHubRepo;
@@ -15,6 +15,6 @@ require_once 'supdSFTP.php';
 use serverupdate\supdSFTP;
 $sftp = new supdSFTP($bpath, $runcfg->server);
 
-echo 'Home    - ' . $sftp->getHome() . "\n";
-echo 'DocRoot - ' . $sftp->getDocRoot() . "\n";
+appEcho("Home    - {$sftp->getHome()}\n");
+appEcho("DocRoot - {$sftp->getDocRoot()}\n");
 ?>
