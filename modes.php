@@ -1,6 +1,4 @@
 <?php
-require_once 'rightnow.php';
-
 function isBackupEnabled($mode) {
     global $ghrepo;
     $func = 'get'.ucwords($mode);

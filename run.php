@@ -19,6 +19,7 @@ $runcfg = json_decode(file_get_contents($runit));
 */
 $debug = $runcfg->debug;
 
+require_once 'rightnow.php';
 require_once 'appecho.php';
 
 require_once 'init.php';
