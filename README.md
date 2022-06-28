@@ -64,10 +64,10 @@ The primary use of this application is to keep files up to date on a web server.
 </div>
 <br>
 
-**1** - Request the releases for a specific repository, an array of "release" objects is returned that are sorted by the date they were created.
-**2** - Request the comparison between two tags, an object is return containing an array named `"files"`. That array will be used for choosing which files to copy to the server. Each file will be *new*, *modified*, or *deleted*.
-**3** - If enabled, each *modified* file is copied from the server to a local backup folder before it is overwritten.
-**4** - Files that are *new* or *modified* are copied from local storage to the server. Folder paths on the server are created as needed.
+**1** - Request the releases for a specific repository, an array of "release" objects is returned that are sorted by the date they were created.<br>
+**2** - Request the comparison between two tags, an object is return containing an array named `"files"`. That array will be used for choosing which files to copy to the server. Each file will be *new*, *modified*, or *deleted*.<br>
+**3** - If enabled, each *modified* file is copied from the server to a local backup folder before it is overwritten.<br>
+**4** - Files that are *new* or *modified* are copied from local storage to the server. Folder paths on the server are created as needed.<br>
 
 ## Tagged Release Names
 
