@@ -17,6 +17,13 @@ Many changes, including:
 
 The code was tested with a private repository and a "live" server. All modes (*as described in the README*) work as expected, including file backups. No bugs were **seen**.
 
+**2022-06-28** tagged release "0.0.3":
+
+* README updates
+* Added appEcho() and a "verbose" flag in run.json, console output can be enabled or disabled.
+  * Added `"tstamp": true` to run.json, when `true` console output messages are prepended with a timestamp.
+* Refactored test(), stage(), and live() into getModeDest()
+
 ---
 
 # github_repo-sftp-server_update
