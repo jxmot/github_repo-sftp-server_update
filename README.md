@@ -45,9 +45,42 @@ The primary use of this application is to keep files up to date on a web server.
   * Start with "0.0.0" and tag a release before any project files are added to the repository.
   * When preparing to stage, test, or deploy be sure to tag a release first. 
 
-## Tag Names
+## Overview
+
+<div align="center">
+    <figure>
+<!-- NOTE: When Github renders the images it will REMOVE the "margin", and ADD "max-width:100%" -->
+        <img src="./mdimg/overview.png" style="width:75%;border: 2px solid black;margin-right: 1rem;"; alt="Application Overview"/>
+        <br>
+        <figcaption><strong>Operation Overview</strong></figcaption>
+    </figure>
+</div>
+<br>
+
+**1** - Request the releases for a specific repository, an array of "release" objects is returned that are sorted by the date they were created.
+**2** - Request the comparison between two tags, an object is return containing an array named `"files"`. That array will be used for choosing which files to copy to the server. Each file will be *new*, *modified*, or *deleted*.
+**3** - If enabled, each *modified* file is copied from the server to a local backup folder before it is overwritten.
+**4** - Files that are *new* or *modified* are copied from local storage to the server. Folder paths on the server are created as needed.
+
+## Tagged Release Names
 
 [*Semantic versioning*](https://semver.org/) is strongly recommended. Be sure to tag a *release*, that operation will create a zip-file and a gzip file containing the current (*at the time of tagging*) repository contents. *NOTE: The zip/gzip files might be used in a subsequent version of this application.*
+
+It is also recommended that 
+
+**NOTE:** When a release is created two things happen, first a tag is created. And second the release is created.
+
+## GitHub API - Get Tags vs Get Releases
+
+A measurable amount of effort has gone into comparing the GitHub API responses to *repository releases* and *repository tags* requests. And it has been determined that requesting *repository releases* is the better choice.
+
+| Endpoint | Sorted |    By   | Date & Time |
+|:--------:|:------:|:-------:|:-----------:|
+|   Tags   |  Yes   |   Tag*  | not present |
+| Releases |  Yes   | Created |   present   |
+
+* The result sorting cannot be changed for either endpoint.
+* Tag* sorting gets strange if tags are **not** strictly numeric.
 
 ## First Time File Update
 
@@ -61,7 +94,7 @@ For the given repository the application can obtain the changed files that occur
 
 * When creating a new repository that this application will use when updating a server:
   * Immediately after creation tag the repository with 0.0.0 (*numeric only revision numbers are recommended, this is due to how GitHub sorts tags*)
-    * If the 0.0.0 tag is created sometime *after* repository creation, and other tags have been created then it *should be* OK. The application will *sort* the tags prior to using them.
+    * If the 0.0.0 tag is created sometime *after* repository creation, and other tags have been created then it *should be* OK. ~~The application will *sort* the tags prior to using them.~~
   * Try to be consistent with how you advance the version number. 
 * Prior to updating files on the server:
   * Have at least two tagged releases. 
@@ -138,6 +171,7 @@ The default file name is `run.json`:
     "repo":"repos/repo-your_repository_name_on_github.json",
     "mode":"stage",
     "verbose": true,
+    "tstamp": true,
     "debug": false
 }
 ```
@@ -149,6 +183,8 @@ php run.php run
 ```
 
 If no argument is provided the default run file is `run.json`.
+
+
 
 ## GitHub Repository Owner
 
