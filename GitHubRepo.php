@@ -126,6 +126,8 @@ class GitHubRepo {
     }
 
     public function getTags($mode) {
+// TODO: return the $this->repo->{$mode}->tags object instead
+
         $tags = [];
 
         if(isset($this->repo->{$mode}->tags->beg) && ($this->repo->{$mode}->tags->beg !== "")) {

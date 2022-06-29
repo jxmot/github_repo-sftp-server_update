@@ -65,6 +65,7 @@ global $ghrepo, $sftp, $bupath;
 function getChangedFiles($mode) {
 global $ghrepo, $chgdata;
 
+// TODO: return the $this->repo->{$mode}->tags object instead
     $rtags = $ghrepo->getTags($mode);
 
     if($rtags[0] !== "" && $rtags[1] !== "") {
