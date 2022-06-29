@@ -75,8 +75,6 @@ This application will rely on the following:
 
 [*Semantic versioning*](https://semver.org/) is strongly recommended. Be sure to tag a *release*, that operation will create a zip-file and a gzip file containing the current (*at the time of tagging*) repository contents. *NOTE: The zip/gzip files might be used in a subsequent version of this application.*
 
-It is also recommended that 
-
 **NOTE:** When a release is created two things happen, first a tag is created. And second the release is created.
 
 ## GitHub API - Get Tags vs Get Releases
@@ -103,7 +101,7 @@ For the given repository the application can obtain the changed files that occur
 
 * When creating a new repository that this application will use when updating a server:
   * Immediately after creation tag the repository with 0.0.0 (*numeric only revision numbers are recommended, this is due to how GitHub sorts tags*)
-    * If the 0.0.0 tag is created sometime *after* repository creation, and other tags have been created then it *should be* OK. ~~The application will *sort* the tags prior to using them.~~
+    * If the 0.0.0 tag is created sometime *after* repository creation, and other tags have been created then it *should be* OK. The application will *sort* the tags prior to using them.
   * Try to be consistent with how you advance the version number. 
 * Prior to updating files on the server:
   * Have at least two tagged releases. 
@@ -120,6 +118,7 @@ The **server** environment where this application was originally intended for is
 * cPanel
 * Linux
 * Document root path: `/home/USER/public_html`
+* SSH and SFTP
 
 The **client** environment where this application was originally intended for is:
 
@@ -161,27 +160,28 @@ All configuration data is saved in JSON formatted files.
 
 In addition to being placed in appropriate locations the configuration files use this naming convention:
 
-* **`owner-*.json`**:
-* **`token-*.json`**:
-* **`repo-*.json`**: 
-  * **`stage-*.json`**:
-  * **`test-*.json`**:
-  * **`live-*.json`**:
-* **`server-*.json`**: 
+* **`owners/owner-*.json`**:
+* **`tokens/token-*.json`**:
+* **`repos/repo-*.json`**: 
+  * **`repos/stage-*.json`**:
+  * **`repos/test-*.json`**:
+  * **`repos/live-*.json`**:
+* **`servers/server-*.json`**: 
 
 ## Application Run
 
-The default file name is `run.json`:
+The default run-time configuration file name is `run.json`:
 
 ```
 {
-    "owner":""owners/owner-github_username.json",
+    "owner":"owners/owner-github_username.json",
     "server":"servers/server-yourserver.json",
     "repo":"repos/repo-your_repository_name_on_github.json",
     "mode":"stage",
     "verbose": true,
     "tstamp": true,
-    "debug": false
+    "debug": false,
+    "metrics": true
 }
 ```
 
@@ -193,7 +193,41 @@ php run.php run
 
 If no argument is provided the default run file is `run.json`.
 
+### Settings
 
+* `"owner"` - 
+* `"server"` - 
+* `"repo"` - 
+* `"verbose"` - 
+* `"tstamp"` - 
+* `"debug"` - 
+* `"metrics"` - 
+
+#### Metrics
+
+```
+{
+    "owner":"github_username",
+    "repo":"your_repository_name_on_github",
+    "server":"yourserver.tld",
+    "mode":"stage",
+    "debug":true,
+    "tags": {
+        "beg":"",
+        "end":""
+    },
+    "files": {
+        "new":0,
+        "mod":0,
+        "del":0
+    },
+    "mstart": ["20220628","210532",1656468332],
+    "mstop":  ["20220628","210532",1656468332],
+    "dur":    ["00:50:27",3027]
+}
+```
+
+`metrics/%OWNER%-%REPO%-%SERVER%-%MODE%-%DATETIME%.json`
 
 ## GitHub Repository Owner
 
@@ -346,7 +380,16 @@ The primary differences between the files are in the `"dest"` and `"sourceroot"`
 
 ### Backups
 
+When enabled in a "mode", files are copied from the server to a location specified by `"path"` just prior to being overwritten.
 
+```
+    "backup": {
+        "enable": true,
+        "path": "backups/%SERVER%/%REPO%/%MODE%/%TIMEDATE%/"
+    }
+```
+
+If no files are backed up the timestamped folder will be removed. 
 
 ### GitHub API Endpoints
 
@@ -394,7 +437,6 @@ See [Required Preparation](#required_preparation) before proceeding, this applic
   - [ ] downloaded private key file from your server, save it in the `ssh` folder and edit `"keyfile"` in `servers/server-yourserver.json`.
     - [ ] copy pass phrase into the `ssh/yourserver-passphrase.json` file and replace `yourserver` with something that identifies the server you will be connecting to.
     - [ ] edit `"phrasefile"` in `servers/server-yourserver.json`
-  - [ ] 
 - [ ] **GitHub** - 
   - [ ] Get a *personal access token*
   - [ ] Save the token in `tokens/token-github_username.json`
@@ -436,11 +478,7 @@ The version of [phpseclib](https://github.com/phpseclib/phpseclib) used here is 
 
 # Future
 
-* Obtain files from GitHub via the API instead of locally.
 * Keep a log of which files were changed/uploaded
-* Create a "debug" mode where:
-  * Files are not copied to the server
-  * TBD
 * TBD
 
 ---
