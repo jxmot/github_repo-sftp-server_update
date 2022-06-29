@@ -58,6 +58,10 @@ function rightnow($fmt, $created = null) {
             $format = '["Ymd","His"]';
             break;
 
+        case 'json2':
+            $format = '["Ymd","His",'.$dt->getTimestamp().']';
+            break;
+
         default:
             break;
     }
@@ -68,6 +72,7 @@ function rightnow($fmt, $created = null) {
 //
 // Uncomment below for testing
 //echo rightnow('json')."\n";
+//echo rightnow('json2')."\n";
 //echo rightnow('csv')."\n";
 //echo rightnow('log')."\n";
 //echo rightnow('name')."\n";
