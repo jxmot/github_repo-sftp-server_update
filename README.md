@@ -28,29 +28,9 @@ The code was tested with a private repository and a "live" server. All modes (*a
 
 # github_repo-sftp-server_update
 
-**GitHub Repository Changes, Server Update via SFTP**
+*GitHub Repository Changes to Server via SFTP*
 
-This is a PHP application that:
-
-* Uses the GitHub API V3 to:
-  * Obtain release tags from a repository.
-  * Obtains a list of changed files between two tags.
-* Builds a list of (local) path+files using the changed file list.
-* Uses SFTP to transfer the (local) files to a server using predefined destinations(*aka "modes"*):
-  * **stage**: uploads *select* paths and files to a designated "staging" area on the server.
-  * **test**: uploads *select* paths and files to a "testing" area on the server. 
-  * **live**: uploads *select* paths and files to the "live" area on the server.
-* Uses SFTP to transfer(*back up*) files **from** the server prior to overwriting them. NOTE: The file timestamps are preserved when transferring them to the server.
-* If "backups" are enabled then prior to copying a file to the server it will be copied *from* the server and placed in   a timestamped backup folder.
-* Run from the command line or execute via a script.
-
-The primary use of this application is to keep files up to date on a web server. It will rely on the following:
-
-* The GitHub repository exists on local storage. This is likely to be the location where you edit and locally test your files.
-* The local repository is up to date with GitHub. Local files can be newer or different from what is kept in GitHub. However if any files are **not** committed and pushed then they will not appear as "changed" and will not be copied to the server.
-* The repository has tagged releases:
-  * Start with "0.0.0" and tag a release before any project files are added to the repository.
-  * When preparing to stage, test, or deploy be sure to tag a release first. 
+The primary use of this application is to update files on a web server.
 
 ## Overview
 
@@ -65,9 +45,31 @@ The primary use of this application is to keep files up to date on a web server.
 <br>
 
 **1** - Request the releases for a specific repository, an array of "release" objects is returned that are sorted by the date they were created.<br>
-**2** - Request the comparison between two tags, an object is return containing an array named `"files"`. That array will be used for choosing which files to copy to the server. Each file will be *new*, *modified*, or *deleted*.<br>
+**2** - Request the comparison between two tags, an object is returned containing an array named `"files"`. That array will be used for choosing which files to copy to the server. Each file will be *new*, *modified*, or *deleted*.<br>
 **3** - If enabled, each *modified* file is copied from the server to a local backup folder before it is overwritten.<br>
 **4** - Files that are *new* or *modified* are copied from local storage to the server. Folder paths on the server are created as needed.<br>
+
+## Some Details
+
+This is a PHP application that:
+
+* Uses the GitHub API V3 to:
+  * Obtain a list of tagged releases from a repository.
+  * Obtain a list of changed files between two tags.
+* Builds a list of (local) path+files using the changed file list.
+* Uses SFTP to transfer the (local) files to a server using predefined destinations(*aka "modes"*):
+  * **stage**: uploads *select* paths and files to a designated "staging" area on the server.
+  * **test**: uploads *select* paths and files to a "testing" area on the server. 
+  * **live**: uploads *select* paths and files to the "live" area on the server.
+* Uses SFTP to transfer(*back up*) files **from** the server prior to overwriting them. NOTE: The file timestamps are preserved when transferring them to the server.
+* If "backups" are enabled then prior to copying a file to the server it will be copied *from* the server and placed in   a timestamped backup folder.
+* Run from the command line or execute via a script.
+
+This application will rely on the following:
+
+* The GitHub repository exists on local storage. This is likely to be the location where you edit and locally test your files.
+* The local repository is up to date with GitHub. Local files can be newer or different from what is kept in GitHub. However if any files are **not** committed and pushed then they will not appear as "changed" and will not be copied to the server.
+* The repository has tagged releases, see [Best Practices](#best_practices) below for details.
 
 ## Tagged Release Names
 
@@ -87,7 +89,7 @@ A measurable amount of effort has gone into comparing the GitHub API responses t
 | Releases |  Yes   | Created |   present   |
 
 * The result sorting cannot be changed for either endpoint.
-* Tag* sorting gets strange if tags are **not** strictly numeric.
+* Tag* sorting gets strange if tags are **not** strictly numeric. This is a known problem and has had discussions on the GitHub Community forums.
 
 ## First Time File Update
 
