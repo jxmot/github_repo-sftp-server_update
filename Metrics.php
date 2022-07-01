@@ -11,9 +11,7 @@ class MetricsData {
 
 class Metrics {
     private $data;
-
     private $fname;
-    private $fnow;
 
     public function __construct($owner, $repo, $server, $mode, $debug) {
         $this->data = new MetricsData();
@@ -25,9 +23,9 @@ class Metrics {
         $this->data->server = str_replace('.', '_', $server);
         $this->data->mode   = $mode;
         $this->data->debug  = $debug;
-
-        $this->fname = './metrics/%OWNER%-%REPO%-%SERVER%-%MODE%-%DATETIME%.json';
-        $this->fnow  = rightnow('name2');
+        $this->fname = str_replace(['%OWNER%','%REPO%','%SERVER%','%MODE%','%DATETIME%'], 
+                                   [$this->data->owner,$this->data->repo,$this->data->server,$this->data->mode,rightnow('name2')], 
+                                   './metrics/%OWNER%-%REPO%-%SERVER%-%MODE%-%DATETIME%.json');
     }
 
     public function setFiles($new, $mod, $del) {
@@ -48,7 +46,6 @@ class Metrics {
     public function stop() {
         $this->data->mstop = json_decode(rightnow('json2'));
         $elapsed = $this->data->mstop[2] - $this->data->mstart[2];
-        //$tmp = $this->secToHMS($elapsed);
         $tmp = secToHMS($elapsed);
         $this->data->dur = json_decode('["'.$tmp.'",'.$elapsed.']');
     }
@@ -62,15 +59,11 @@ class Metrics {
     }
 
     public function getFileName() {
-        // './metrics/%OWNER$-%REPO%-%SERVER%-%MODE%-%DATETIME%.json'
-        $ret = str_replace(['%OWNER%','%REPO%','%SERVER%','%MODE%','%DATETIME%'], 
-                           [$this->data->owner,$this->data->repo,$this->data->server,$this->data->mode,$this->fnow], 
-                           $this->fname);
-        return $ret;
+        return $this->fname;
     }
 
     public function recordMetrics() {
-        file_put_contents($this->getFileName(), json_encode($this->data, JSON_PRETTY_PRINT));
+        file_put_contents($this->fname, json_encode($this->data, JSON_PRETTY_PRINT));
     }
 }
 ?>
