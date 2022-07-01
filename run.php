@@ -51,6 +51,10 @@ if(isBackupEnabled($runcfg->mode)) {
 
 appEcho(">>>>> BEGIN\n");
 
+if(($metrics !== null) && ($runcfg->metrics)) {
+    $metrics->start();
+}
+
 $reporoot = $ghrepo->getRepoRoot();
 
 for($ix = 0; $ix < count($newfiles); $ix++) {
@@ -97,5 +101,9 @@ if(isBackupEnabled($runcfg->mode) && ($debug === false)) {
     }
 }
 
+if(($metrics !== null) && ($runcfg->metrics)) {
+    $metrics->stop();
+    $metrics->recordMetrics();
+}
 appEcho(">>>>> END\n");
 ?>
