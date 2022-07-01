@@ -24,6 +24,20 @@ The code was tested with a private repository and a "live" server. All modes (*a
   * Added `"tstamp": true` to run.json, when `true` console output messages are prepended with a timestamp.
 * Refactored test(), stage(), and live() into getModeDest()
 
+**2022-07-01** tagged release "0.0.4":
+
+**IMPORTANT!**
+
+At this time further development is **suspended**. This is due to not being able to determine if any file or folder has been removed/deleted or renamed. The apparent cause is that the necessary information is not provided by the GitHub v3 API.
+
+I posted a question on the GitHub Community Forum [here](<https://github.community/t/tag-compare-where-are-the-deleted-removed-files/259349>).
+
+When this issue is resolved development will resume.
+
+Changes:
+
+* Added Metrics.php, used for measuring the duration of file operations.
+
 ---
 
 # github_repo-sftp-server_update
@@ -88,6 +102,10 @@ A measurable amount of effort has gone into comparing the GitHub API responses t
 
 * The result sorting cannot be changed for either endpoint.
 * Tag* sorting gets strange if tags are **not** strictly numeric. This is a known problem and has had discussions on the GitHub Community forums.
+
+## GitHub API Issues
+
+The first issue is with the inability to know (*via the API*) which files have been "deleted" or "removed". The "compare" endpoint will return an array of files. But they will **only** be "new" or "modified". 
 
 ## First Time File Update
 
