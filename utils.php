@@ -79,9 +79,19 @@ global $ghrepo, $chgdata;
             throw new \UnexpectedValueException('ERROR: reldata is null');
         }
         if(count($reldata) > 2) {
-            appEcho("tag 0 - {$reldata[0]->tag_name}\n");
-            appEcho("tag 1 - {$reldata[1]->tag_name}\n");
-            $chgdata = json_decode($ghrepo->getRepoChanges($reldata[1]->tag_name,$reldata[0]->tag_name));
+            $tags = array();
+            foreach($reldata as $rel) {
+                // skip tags with alpha characters
+                if(!preg_match("/[a-z]/i", $rel->tag_name)) {
+                    array_push($tags, $rel->tag_name);
+                }
+            }
+            // sort descending
+            rsort($tags);
+            appEcho("tag 0 - {$tags[0]}\n");
+            appEcho("tag 1 - {$tags[1]}\n");
+            $chgdata = json_decode($ghrepo->getRepoChanges($tags[1],$tags[0]));
+            $metrics->setTags($tags[1],$tags[0]);
         } else {
             throw new \UnexpectedValueException('ERROR: reldata count is bad ' . count($reldata));
         }
