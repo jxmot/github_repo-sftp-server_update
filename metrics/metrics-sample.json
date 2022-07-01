@@ -1,0 +1,19 @@
+{
+    "owner":"github_username",
+    "repo":"your_repository_name_on_github",
+    "server":"yourserver.tld",
+    "mode":"stage",
+    "debug":true,
+    "tags": {
+        "beg":"",
+        "end":""
+    },
+    "files": {
+        "new":0,
+        "mod":0,
+        "del":0
+    },
+    "mstart": ["20220628","210532",1656468332],
+    "mstop":  ["20220628","210532",1656468332],
+    "dur":    ["00:50:27",3027]
+}
