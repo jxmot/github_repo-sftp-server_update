@@ -29,6 +29,7 @@ $chgdata = null;
 $newfiles = [];
 $modfiles = [];
 $delfiles = [];
+$renfiles = [];
 
 require_once 'utils.php';
 

@@ -104,6 +104,7 @@ global $chgdata;
 global $newfiles;
 global $modfiles;
 global $delfiles;
+global $renfiles;
 global $metrics;
 global $runcfg;
 
@@ -116,8 +117,13 @@ global $runcfg;
             case 'modified':
                 array_push($modfiles, $chgdata->files[$ix]->filename);
                 break;
+
+            case 'renamed':
+                array_push($renfiles, $chgdata->files[$ix]->filename);
+                break;
     
             case 'deleted':
+            case 'removed':
                 array_push($delfiles, $chgdata->files[$ix]->filename);
                 break;
     
