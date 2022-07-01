@@ -134,4 +134,17 @@ global $runcfg;
         $metrics->setFiles(count($newfiles), count($modfiles), count($delfiles));
     }
 }
+
+function secToHMS($sec) {
+    // how much of each?
+    $hrs = floor($sec / 3600);
+    $min = floor(($sec / 60) % 60);
+    $sec = $sec % 60;
+    //       add leading zeros if needed           create each string
+    $h = ($hrs < 10 && $hrs > 0 ? "0" : "") . ($hrs > 0 ? $hrs .":" : "00:");
+    $m = ($min < 10 && $min > 0 ? "0" : "") . ($min > 0 ? $min .":" : "00:");
+    $s = ($sec < 10 && $sec > 0 ? "0" : "") . ($sec > 0 ? $sec      : "00");
+    // the result...
+    return $h . $m . $s;
+}
 ?>
