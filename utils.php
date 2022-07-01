@@ -68,6 +68,38 @@ global $ghrepo, $chgdata, $metrics;
 // TODO: return the $this->repo->{$mode}->tags object instead
     $rtags = $ghrepo->getTags($mode);
 
+/*
+    Everything from 2.1.3 to HEAD 
+
+    "tags": {
+        "beg":"2.1.3",      $rtags[0]
+        "end":"HEAD"        $rtags[1]
+
+
+    Everything from 2.1.3 to 2.1.4 
+
+    "tags": {
+        "beg":"2.1.3",
+        "end":"2.1.4"
+
+
+    Will grab the latest tag and the one prior,
+    then everything between those two tags
+
+    "tags": {
+        "beg":"",
+        "end":""
+
+
+    Finds the latest tag, and uses 0.0.0 as the
+    starting point. Grab everything between those 
+    two tags
+
+    "tags": {
+        "beg":"0.0.0",
+        "end":""
+
+*/
     if($rtags[0] !== "" && $rtags[1] !== "") {
         appEcho("{$rtags[0]} to {$rtags[1]}\n");
         $chgdata = json_decode($ghrepo->getRepoChanges($rtags[0],$rtags[1]));
