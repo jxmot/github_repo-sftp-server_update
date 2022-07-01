@@ -50,6 +50,10 @@ function rightnow($fmt, $created = null) {
             $format = 'Ymd-His-';
             break;
 
+        case 'name2':
+            $format = 'Ymd-His';
+            break;
+
         case 'path':
             $format = 'Ymd_His';
             break;
