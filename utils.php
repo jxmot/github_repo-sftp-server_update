@@ -63,7 +63,7 @@ global $ghrepo, $sftp, $bupath;
 }
 
 function getChangedFiles($mode) {
-global $ghrepo, $chgdata;
+global $ghrepo, $chgdata, $metrics;
 
 // TODO: return the $this->repo->{$mode}->tags object instead
     $rtags = $ghrepo->getTags($mode);
@@ -72,6 +72,7 @@ global $ghrepo, $chgdata;
         appEcho("{$rtags[0]} to {$rtags[1]}\n");
         $chgdata = json_decode($ghrepo->getRepoChanges($rtags[0],$rtags[1]));
         appEcho("total = ".count($chgdata->files)."\n");
+        $metrics->setTags($rtags[0],$rtags[1]);
     } else {
         $reldata = json_decode($ghrepo->getRepoReleases());
         if($reldata === null) {
@@ -103,6 +104,8 @@ global $chgdata;
 global $newfiles;
 global $modfiles;
 global $delfiles;
+global $metrics;
+global $runcfg;
 
     for($ix = 0;$ix < count($chgdata->files);$ix++) {
         switch(strtolower($chgdata->files[$ix]->status)) {
@@ -126,5 +129,9 @@ global $delfiles;
     appEcho("new - ".count($newfiles)."\n");
     appEcho("mod - ".count($modfiles)."\n");
     appEcho("del - ".count($delfiles)."\n");
+
+    if(($metrics !== null) && ($runcfg->metrics)) {
+        $metrics->setFiles(count($newfiles), count($modfiles), count($delfiles));
+    }
 }
 ?>
