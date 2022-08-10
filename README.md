@@ -38,6 +38,13 @@ Changes:
 
 * Added Metrics.php, used for measuring the duration of file operations.
 
+
+**2022-08-10** GitHub Community discussion board
+
+**IMPORTANT!** It was turned into something awful and practically unusable. The post I made in July cannot be found, or accessed through the link. So any answers I may have received are lost forever. Gee thanks a lot!!!
+
+So, thanks a lot GitHub for making this so bad (even though it "looks" nice). This is so far from any "normal" discussion board UI that it has to be a joke. After all who would design such a crappy thing? I Know! Micro$oft!!!
+
 ---
 
 # github_repo-sftp-server_update
